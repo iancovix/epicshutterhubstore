@@ -597,10 +597,10 @@ setInterval(()=>{
 },4000)
 */
 const heroImages = [
-    "r5bgimg.webp",
     "./R.webp",
-    "./r5latest.webp","r5dcanon.webp",
-    "canonbestbg.webp"
+    "./r5latest.webp",
+    "./bestbgimg2.webp"
+    ,"./bestbgimg.jpeg"
 ];
 
 const heroTexts = [
@@ -645,6 +645,7 @@ function changeHeroBG() {
         herobg.style.opacity = "1";
         
         heroTextEl.style.opacity = "1";
+        heroTextEl.style.textAlign = "center";
         heroTextEl.style.transform = "translateY(0px)"; // back to original
     }, 1000);
 }
@@ -794,7 +795,7 @@ function showSlides() {
     setTimeout(showSlides, 3000); */
     const logo = document.querySelector('.logo')
     logo.addEventListener('click',()=> {
-        window.location.reload()
+        window.location.href='https://epicshutterhub.vercel.app/';
     })
     window.addEventListener('scroll', ()=> {
         let totalHeight = window.scrollY; 
@@ -811,8 +812,8 @@ function showSlides() {
         })
         /* for url search Params eg product.html?id=canon&price=2000*/
     
-let allProducts = document.querySelectorAll('.product-card')
-allProducts.querySelectorAll('.product-description').forEach(product => {
+let allProducts = document.querySelectorAll('.product-card');
+allProducts.forEach(product => {
   product.addEventListener('click', () => {
     const name = encodeURIComponent(product.dataset.name); // encode for URL
     window.location.href = `product.html?name=${name}`;

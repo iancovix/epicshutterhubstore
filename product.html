@@ -93,10 +93,15 @@
 
   
 
-<div style="margin-top: 50px;"class="product-detail">
+<div style=" margin-top: 50px;"class="product-detail">
   <img id="product-img" src="" alt="">
-  <h1 id="product-name"></h1>
-  <p id="product-description"></p>
+  <div class="product-name-description">
+    <h1 id="product-name"></h1>
+    <div id="product-description">
+
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -118,19 +123,19 @@ const productData = [
     description: "The Nikon Z7 II is a 45.7MP full-frame mirrorless camera with dual EXPEED 6 processors, 4K UHD video, and improved autofocus."
   },
   {
-    name: "Nikon Z6 II",
+    name: "Nikon Z6 III",
     img: "camera4.jpg",
-    description: "Nikon Z6 II offers a 24.5MP full-frame sensor, 4K video, dual card slots, and fast hybrid autofocus."
+    description: "Nikon Z6 III offers a 24.5MP full-frame sensor, 4K video, dual card slots, and fast hybrid autofocus."
   },
   {
-    name: "Sony A7R IV",
-    img: "camera5.jpg",
-    description: "Sony A7R IV is a 61MP full-frame mirrorless camera with 4K video, high-speed autofocus, and extensive connectivity options."
+    name: "Sony A7R V",
+    img: "sonyar7v.webp",
+    description: "Sony A7R V is a 61MP full-frame mirrorless camera with 4K video, high-speed autofocus, and extensive connectivity options."
   },
   {
-    name: "Sony A7 III",
-    img: "camera6.jpg",
-    description: "Sony A7 III features a 24MP full-frame sensor, 4K video recording, fast autofocus, and excellent low-light performance."
+    name: "Sony a6400",
+    img: "sonya6400.webp",
+    description: "Sony a6400 features a 24MP APS-C sensor, 4K video recording, fast autofocus, and excellent low-light performance."
   }
 ];
 // Get URL parameter
@@ -142,7 +147,8 @@ const product = productData.find(p => p.name === productName);
 
 if (product) {
   document.getElementById('product-name').innerText = product.name;
-  document.getElementById('product-description').innerText = product.description;
+  const description = document.createElement('li').innerText = product.description;
+  document.getElementById('product-description').append(description);
   document.getElementById('product-img').src = product.img;
   document.getElementById('product-img').alt = product.name;
 } else {

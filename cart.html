@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+/* POPUP PAYMENT MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+}
+
+.modal-box {
+    width: 95%;
+    max-width: 400px;
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: popIn 0.25s ease-out;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-box h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #1a2f5a;
+    text-align: center;
+}
+
+.modal-box input, 
+.modal-box select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.modal-btn {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.pay-btn {
+    background: #1a2f5a;
+    color: white;
+}
+
+.pay-btn:hover {
+    background: #0f1f3a;
+}
+
+.close-btn {
+    background: #ddd;
+}
+
+.close-btn:hover {
+    background: #bbb;
+}
+        .header {
+            background-color: #1a2f5a;
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a2f5a;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #f0f0f0;
+            transform: translateX(-4px);
+        }
+
+        .cart-count-badge {
+            background: #d32f2f;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cart-items-section {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .cart-items-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: #1a2f5a;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f5f5f8;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .cart-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: #1a2f5a;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .qty-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #1a2f5a;
+            color: white;
+            border-color: #1a2f5a;
+        }
+
+        .item-price {
+            text-align: right;
+        }
+
+        .item-total {
+            font-weight: 700;
+            color: #1a2f5a;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            color: #b71c1c;
+            text-decoration: underline;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .empty-cart p {
+            color: #5a5a6e;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .empty-cart small {
+            color: #999;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .continue-shopping-btn {
+            background: #1a2f5a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .continue-shopping-btn:hover {
+            background: #0f1f3a;
+            transform: translateY(-2px);
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .order-summary h3 {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #1a2f5a;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-row:last-of-type {
+            border-bottom: 2px solid #1a2f5a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+        }
+
+        .summary-row label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .summary-row strong {
+            color: #1a2f5a;
+            font-weight: 600;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .summary-total strong {
+            color: #1a2f5a;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: #00aa00;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .checkout-btn:hover {
+            background: #008800;
+            transform: translateY(-2px);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-shopping-btn {
+            width: 100%;
+            background: #f0f0f0;
+            color: #1a2f5a;
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-shopping-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a2f5a;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 8px;
+            z-index: 3000;
+            animation: slideInNotif 0.3s ease-out;
+            font-weight: 500;
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes slideInNotif {
+            from { 
+                transform: translateX(400px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes slideOut {
+            from { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+            to { 
+                transform: translateX(400px); 
+                opacity: 0; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Shopping Cart</h1>
+        <div class="header-actions">
+            <div class="cart-count-badge">
+                <span id="cartCountBadge">0</span> items
+            </div>
+            <button class="back-btn" onclick="navigateToHome()">
+                <i class="fas fa-arrow-left"></i> Back to Shopping
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="cart-content">
+            <div class="cart-items-section">
+                <h2>Your Items</h2>
+                <div id="cartItemsList"></div>
+            </div>
+
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-row">
+                    <label>Subtotal:</label>
+                    <strong id="subtotalPrice">$0.00</strong>
+                </div>
+                <div class="summary-row">
+                    <label>Shipping:</label>
+                    <strong id="shippingPrice">$15.00</strong>
+                </div>
+                <div class="summary-total">
+                    <label>Total:</label>
+                    <strong id="totalPrice">$0.00</strong>
+                </div>
+                <button class="checkout-btn" onclick="processCheckout()" id="checkoutBtn">Proceed to Checkout</button>
+                <button class="back-shopping-btn" onclick="navigateToHome()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CART_STORAGE_KEY = 'ecommerce_cart';
+        let cart = [];
+
+        // Load cart on page load
+        function loadCartFromStorage() {
+            const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            displayCartItems();
+            updateOrderSummary();
+        }
+
+        function displayCartItems() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Your cart is empty</p>
+                        <small>Add items to get started</small>
+                        <button class="continue-shopping-btn" onclick="navigateToHome()">Start Shopping</button>
+                    </div>
+                `;
+                document.getElementById('checkoutBtn').disabled = true;
+                return;
+            }
+
+            document.getElementById('checkoutBtn').disabled = false;
+
+            cart.forEach((item, index) => {
+                const itemTotal = (item.price * item.quantity).toFixed(2);
+                cartItemsList.innerHTML += `
+                    <div class="cart-item">
+                        <div class="item-details">
+                        <img src="${item.image}" style="width: 100px; height: 100px; border-radius: 8px; object-fit: contain;" alt="" />
+                            <strong>${item.name}</strong>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                                <span style="min-width: 30px; text-align: center; font-weight: 600;">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                            </div>
+                        </div>
+                        <div class="item-price">
+                            <div class="item-total">$${itemTotal}</div>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            updateCartBadge();
+        }
+
+        function updateOrderSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 100 ? 0 : 15;
+            const total = subtotal + shipping;
+
+            document.getElementById('subtotalPrice').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shippingPrice').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+            document.getElementById('totalPrice').textContent = `$${total.toFixed(2)}`;
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCountBadge').textContent = count;
+        }
+
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(index);
+                return;
+            }
+            cart[index].quantity = newQuantity;
+            saveCartToStorage();
+            displayCartItems();
+            updateOrderSummary();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCartToStorage();
+            displayCartItems();
+            updateOrderSummary();
+            showNotification('✓ Item removed from cart');
+        }
+
+        function saveCartToStorage() {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!');
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 100 ? 0 : 15;
+            const total = subtotal + shipping;
+
+            showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`);
+            cart = [];
+            saveCartToStorage();
+            
+            setTimeout(() => {
+                navigateToHome();
+            }, 40000);
+            const paymentBox = document.querySelector('.modal-overlay').style.display='flex';
+        }
+
+        function navigateToHome() {
+            localStorage.setItem('current_page', 'home');
+            window.history.back();
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-in-out forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+function closePaymentModal(){
+    const paymentBox = document.querySelector('.modal-overlay').style.display= 'none'
+}
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadCartFromStorage);
+        const paymentSelect = document.getElementById('custPayment');
+
+// Listen for change
+paymentSelect.addEventListener('change', function() {
+    const selectedMethod = this.value; // or paymentSelect.value
+    
+    // Hide any previous messages or fields
+    hideAllPaymentFields();
+    
+    switch (selectedMethod) {
+        case 'MasterCard':
+        case 'Visa':
+            showCardFields();
+            showMessage('Enter your card details below');
+            break;
+            
+        case 'MTN Mobile Money':
+            showMobileMoneyFields('MTN');
+            showMessage('You will receive a prompt on your MTN number');
+            break;
+            
+        case 'Airtel Money':
+            showMobileMoneyFields('Airtel');
+            showMessage('You will receive a prompt on your Airtel number');
+            break;
+            
+        case 'Cash on Delivery':
+            showMessage('Pay with cash when your order is delivered');
+            break;
+            
+        default:
+            showMessage('Please select a payment method');
+    }
+});
+function showMessage(text) {
+    let msg = document.getElementById('paymentMessage');
+    if (!msg) {
+        msg = document.createElement('div');
+        msg.id = 'paymentMessage';
+        msg.style.marginTop = '15px';
+        msg.style.padding = '12px';
+        msg.style.borderRadius = '8px';
+        msg.style.fontWeight = '500';
+        paymentSelect.parentNode.appendChild(msg);
+    }
+    msg.textContent = text;
+    msg.style.background = '#e3f2fd';
+    msg.style.color = '#1976d2';
+    msg.style.border = '1px solid #bbdefb';
+}
+
+function hideAllPaymentFields() {
+    const fields = ['cardFields', 'mobileMoneyFields'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+}
+
+function showCardFields() {
+    let cardFields = document.getElementById('cardFields');
+    if (!cardFields) {
+        cardFields = document.createElement('div');
+        cardFields.id = 'cardFields';
+        cardFields.innerHTML = `
+            <input type="text" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;">
+            <div style="display:flex; gap:10px;">
+                <input type="text" placeholder="MM/YY" style="width:50%;">
+                <input type="text" placeholder="CVV" style="width:50%;">
+            </div>
+            <input type="text" placeholder="Cardholder Name" style="width:100%; padding:12px; margin:8px 0;">
+        `;
+        paymentSelect.parentNode.appendChild(cardFields);
+    }
+    cardFields.style.display = 'block';
+}
+
+function showMobileMoneyFields(provider) {
+    let mmFields = document.getElementById('mobileMoneyFields');
+    if (!mmFields) {
+        mmFields = document.createElement('div');
+        mmFields.id = 'mobileMoneyFields';
+        mmFields.innerHTML = `
+            <input type="tel" id="mmPhoneNumber" placeholder="Enter your ${provider} number (e.g. 024xxxxxxx)" 
+                   style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;">
+            <p style="font-size:0.9rem; color:#666;">You will receive a payment prompt shortly</p>
+        `;
+        paymentSelect.parentNode.appendChild(mmFields);
+    }
+    mmFields.style.display = 'block';
+    document.getElementById('mmPhoneNumber')?.focus();
+}
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const paymentSelect = document.getElementById('custPayment');
+
+    if (!paymentSelect) {
+        console.error("ERROR: <select id='custPayment'> not found on page!");
+        return;
+    }
+
+    paymentSelect.addEventListener('change', function () {
+        const method = this.value;
+
+        // Remove any previous message
+        const oldMsg = document.getElementById('payment-info');
+        if (oldMsg) oldMsg.remove();
+
+        // Create new message
+        const msg = document.createElement('div');
+        msg.id = 'payment-info';
+        msg.style.marginTop = '15px';
+        msg.style.padding = '15px';
+        msg.style.borderRadius = '8px';
+        msg.style.fontWeight = '500';
+
+        switch (method) {
+            case 'MasterCard':
+            case 'Visa':
+                msg.textContent = 'Please enter your card details below';
+                msg.style.background = '#e8f5e9';
+                msg.style.color = '#2e7d32';
+                break;
+            case 'MTN Mobile Money':
+                msg.textContent = 'You will receive a payment prompt on your MTN number';
+                msg.style.background = 'yellow';
+                msg.style.color = '#ef6c00';
+                break;
+            case 'Airtel Money':
+                msg.textContent = 'You will receive a payment prompt on your Airtel number';
+                msg.style.background = '#ffebee';
+                msg.style.color = '#c62828';
+                break;
+            case 'Cash on Delivery':
+                msg.textContent = 'Pay with cash when your order is delivered';
+                msg.style.background = '#e3f2fd';
+                msg.style.color = '#1976d2';
+                break;
+            default:
+                msg.textContent = 'Please select a payment method';
+                msg.style.background = '#f5f5f5';
+                msg.style.color = '#666';
+        }
+
+        paymentSelect.parentNode.appendChild(msg);
+    });
+});
+</script>
+    <!-- PAYMENT POPUP MODAL -->
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal-box">
+        <h3>Payment Details</h3>
+        
+        <input type="text" id="custName" placeholder="Full Name">
+        <input type="number" id="custPhone" placeholder="Phone Number">
+        <input type="text" id="custLocation" placeholder="Delivery Location">
+        
+        <select id="custPayment">
+            <option value="">Select Payment Method</option>
+            <option value="MasterCard">MasterCard</option>
+            <option value="Visa">Visa</option>
+            <option value="MTN Mobile Money">MTN Mobile Money</option>
+            <option value="Airtel Money">Airtel Money</option>
+            <option value="Cash on    Delivery">Cash on Delivery</option>
+        </select>
+        
+        <button class="modal-btn pay-btn" onclick="confirmOrder()">Confirm Order</button>
+        <button class="modal-btn close-btn" onclick="closePaymentModal()">Cancel</button>
+    </div>
+</div>
+</body>
+</html>

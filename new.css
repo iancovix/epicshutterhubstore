@@ -1,0 +1,113 @@
+/* Epic Shutter Hub – Premium 2025 Style */
+.esh-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.esh-card {
+  background: #000;
+  color: #fff;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #222;
+}
+
+.esh-card:hover {
+  transform: translateY(-16px);
+  border-color: #a02424;
+  box-shadow: 0 30px 60px rgba(160, 36, 36, 0.25);
+}
+
+/* Badge */
+.esh-badges { position: absolute; top: 1rem; left: 1rem; z-index: 2; }
+.esh-badge {
+  background: #a02424;
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Image with mask + hover border */
+.esh-image {
+  position: relative;
+  overflow: hidden;
+}
+.esh-image img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.esh-card:hover .esh-image img {
+  transform: scale(1.06);
+}
+.esh-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  transition: border-color 0.4s;
+}
+.esh-card:hover .esh-image::after {
+  border-color: #a02424;
+}
+
+/* Content */
+.esh-content {
+  padding: 1.75rem 1.5rem 2rem;
+  text-align: center;
+}
+.esh-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+.esh-subtitle {
+  font-size: 0.95rem;
+  color: #aaaaaa;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+}
+.esh-price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #a02424;
+  margin: 0 0 1.5rem;
+}
+
+/* Button */
+.esh-add {
+  background: #a02424;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.esh-add:hover {
+  background: #fff;
+  color: #a02424;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .esh-products { padding: 2rem 1rem; gap: 2rem; }
+  .esh-card:hover { transform: translateY(-8px); }
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<style type="text/css" media="all">
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 40px 20px;
+}
+
+.product-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+  width: 100%;
+  height: 180px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  transition: transform 0.4s;
+}
+.product-card:hover img { transform: scale(1.08); }
+
+.badges {
+  display : none;position: absolute; top: 12px; left: 12px; z-index: 2; }
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 6px;
+}
+.badge.hot { background: #ff4757; color: white; }
+.badge.sale { background: #2ed573; color: white; }
+
+.wishlist {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  font-size: 20px;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.rating {
+  padding: 12px 16px 0;
+  font-size: 14px;
+  color: #ffa502;
+}
+.rating span { color: #888; margin-left: 4px; }
+
+.title a {
+  padding: 0 16px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+  text-decoration: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.subtitle {
+  padding: 0 16px;
+  color: #777;
+  font-size: 14px;
+  margin: 4px 0 8px;
+}
+
+.price {
+  padding: 0 16px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.old { text-decoration: line-through; color: #999; margin-right: 8px; font-weight: normal; font-size: 15px; }
+.new { color: #e74c3c; }
+
+.actions {
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+}
+.add-to-cart {
+  flex: 1;
+  background: #222;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.quick-view {
+  background: transparent;
+  border: 2px solid #222;
+  color: #222;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+    
+</style>
+<body>
+<div class="featured-grid">
+  <!-- Repeat this card for each product -->
+  <div class="product-card">
+    <div class="badges">
+      <span class="badge hot">HOT</span>
+      <span class="badge sale">-20%</span>
+    </div>
+    <button class="wishlist">❤️</button>
+
+    <a href="/product/123" class="image-link">
+      <img src="/canoneos6mark2.webp" alt="Product">
+    </a>
+
+    <div class="rating">
+      ★★★★☆ <span>4.8 (324)</span>
+    </div>
+
+    <h3 class="title">
+      <a href="/product/123">Wireless Noise-Cancelling Headphones</a>
+    </h3>
+    <p class="subtitle">Crystal clear sound • 30h battery</p>
+
+    <div class="price">
+      <span class="old">$99.00</span>
+      <span class="new">$79.00</span>
+    </div>
+
+    <div class="actions">
+      <button class="add-to-cart">Add to Cart</button>
+      <button class="quick-view">Quick View</button>
+    </div>
+  </div>
+  <div class="product-card">
+    <div class="badges">
+      <span class="badge hot">HOT</span>
+      <span class="badge sale">-20%</span>
+    </div>
+    <button class="wishlist">❤️</button>
+
+    <a href="/product/123" class="image-link">
+      <img src="/canoneos6mark2.webp" alt="Product">
+    </a>
+
+    <div class="rating">
+      ★★★★☆ <span>4.8 (324)</span>
+    </div>
+
+    <h3 class="title">
+      <a href="/product/123">Wireless Noise-Cancelling Headphones</a>
+    </h3>
+    <p class="subtitle">Crystal clear sound • 30h battery</p>
+
+    <div class="price">
+      <span class="old">$99.00</span>
+      <span class="new">$79.00</span>
+    </div>
+
+    <div class="actions">
+      <button class="add-to-cart">Add to Cart</button>
+      <button class="quick-view">Quick View</button>
+    </div>
+  </div>
+  
+
+</div>    
+</body>
+
+</html>

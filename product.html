@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details </title>
+<link rel="stylesheet" href="/style.css"/>
+<style>
+  .product-detail { max-width: 600px; margin: 100px auto; text-align: center; }
+  .product-detail img { width: 100%; max-width: 400px; }
+</style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+             <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+          
+               <div style="padding: 0;" class="logo">
+                <img style="border-radius: 50%;" width="80px" height="80px" src="/logoimg.webp" loading="lazy" alt="logo image">
+            </div>
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="search" id="searchInput" placeholder="Search products..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+                 <button id="sec-searchBtn"class="search-btn"><i class="fas fa-search"></i></button>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">1</span>
+                </div>
+               
+            </div>
+              
+          
+        </div>
+
+        <!-- NAVIGATION MENU -->
+        <nav class="nav-menu" id="navMenu">
+            <ul>
+                <li class="dropdown"><a href="/Cameras" class="nav-link">Cameras</a>
+                <ul class="drop-content">
+                    <li><a href="/Cameras">DSLR</a>
+                    </li><li><a href="/Cameras">Mirrorless</a></li> 
+                    </li><li><a href="/Cameras">Video Cameras</a></li> 
+                    </li><li><a href="/Cameras"></a></li> 
+                        
+                </ul>
+            </li>
+                <li class="dropdown"><a href="/Lenses" class="nav-link">Lenses</a>
+                             <ul class="drop-content">
+                    <li><a href="/Lenses">canon</a>
+                    </li><li><a href="/Lenses">Tamron</a></li>
+                        
+                </ul></li>
+                <li class="dropdown"><a href="/Lighting" class="nav-link">Lighting</a>
+                             <ul class="drop-content">
+                    <li><a href="/Lighting">Godox</a>
+                    </li><li><a href="/Lighting">Aputure</a></li>
+                        
+                </ul></li>
+                <li class="dropdown"><a href="/Audio" class="nav-link">Audio</a>
+                             <ul class="drop-content">
+                    <li><a href="/Audio">Rode</a>
+                    </li><li><a href="/Audio">Sennheiser</a></li>
+                        
+                </ul></li>
+                <li class="dropdown"><a href="/Tripods & Stabilizers" class="nav-link">Tripods & Stabilizers</a>
+                             <ul class="drop-content">
+                    <li><a href="/Tripods & Stabilizerss">DSLR</a>
+                    </li><li><a href="/Tripods & Stabilizers">Mirrorless</a></li>
+                        
+                </ul></li>
+                <li class="dropdown"><a href="/Accessories" class="nav-link">Accessories</a>
+                             <ul class="drop-content">
+                    <li><a href="./Accessories">Batteries</a>
+                    </li><li><a href="./Accessories">Lens Caps</a></li>
+                        
+                </ul></li>
+                <li class="dropdown"><a href="/Used Cameras" class="nav-link">Used Cameras</a>
+                             <ul class="drop-content">
+                    <li><a href="./Used Cameras">Canon</a>
+                    </li><li><a href="./usedcameras.html">Sony</a></li>
+                        
+                </ul></li>
+            </ul>
+        </nav>
+    </header>
+
+  
+
+<div style="margin-top: 50px;"class="product-detail">
+  <img id="product-img" src="" alt="">
+  <h1 id="product-name"></h1>
+  <p id="product-description"></p>
+</div>
+
+<script>
+// Sample product data
+const productData = [
+  {
+    name: "Canon EOS R5",
+    img: "camera1.jpg",
+    description: "The Canon EOS R5 is a full-frame mirrorless camera with 45MP resolution, 8K video recording, and advanced autofocus."
+  },
+  {
+    name: "Canon EOS R6",
+    img: "canoneos6mark2.webp",
+    description: "Canon EOS R6 features a 20MP full-frame sensor, 4K video, in-body image stabilization, and high-speed continuous shooting."
+  },
+  {
+    name: "Nikon Z7 II",
+    img: "camera3.jpg",
+    description: "The Nikon Z7 II is a 45.7MP full-frame mirrorless camera with dual EXPEED 6 processors, 4K UHD video, and improved autofocus."
+  },
+  {
+    name: "Nikon Z6 II",
+    img: "camera4.jpg",
+    description: "Nikon Z6 II offers a 24.5MP full-frame sensor, 4K video, dual card slots, and fast hybrid autofocus."
+  },
+  {
+    name: "Sony A7R IV",
+    img: "camera5.jpg",
+    description: "Sony A7R IV is a 61MP full-frame mirrorless camera with 4K video, high-speed autofocus, and extensive connectivity options."
+  },
+  {
+    name: "Sony A7 III",
+    img: "camera6.jpg",
+    description: "Sony A7 III features a 24MP full-frame sensor, 4K video recording, fast autofocus, and excellent low-light performance."
+  }
+];
+// Get URL parameter
+const params = new URLSearchParams(window.location.search);
+const productName = params.get('name');
+
+// Find product data
+const product = productData.find(p => p.name === productName);
+
+if (product) {
+  document.getElementById('product-name').innerText = product.name;
+  document.getElementById('product-description').innerText = product.description;
+  document.getElementById('product-img').src = product.img;
+  document.getElementById('product-img').alt = product.name;
+} else {
+  document.getElementById('product-name').innerText = "Product not found";
+  document.getElementById('product-description').innerText = "";
+  document.getElementById('product-img').style.display = "none";
+}
+console.log(window.location.search)
+</script>
+<script src="server.js"></script>
+
+</body>
+</html>

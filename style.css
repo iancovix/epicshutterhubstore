@@ -1563,15 +1563,16 @@ body p{
     scroll-snap-align: start;
     min-width: 80% ; 
     padding: 10px;
+     height: clamp(150px, 35vh, 300px);
     border-radius: 6px;
     text-align: center;
 }
 
-.slider img {
+.slider .slides img {
     width: 100%;
-    height: calc(180px,calc(2vw+ 20px),200px); 
+     height: 100%;
     background-color: transparent;
-    object-fit: contain; 
+    object-fit: cover; 
     border-radius: 6px;
 }
 /* slider aslideor
@@ -2091,7 +2092,7 @@ for the losd more button at the cameras
 .subscribe-btn:hover{
     background: #ff4c4c;
 }
-
+/*
 @keyframes glowAnimation {
   from {
     text-shadow: 0 0 10px #fff, 0 0 20px #a02424, 0 0 30px #a02424, 0 0 40px #a02424;
@@ -2099,7 +2100,7 @@ for the losd more button at the cameras
   to {
     text-shadow: 0 0 20px #fff, 0 0 40px #a02424, 0 0 50px #a02424, 0 0 60px #a02424;
   }
-}
+}*/
 .newsletter-form button{
   background: var(--navy); 
 }

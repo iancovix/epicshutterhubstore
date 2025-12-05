@@ -645,7 +645,7 @@ function changeHeroBG() {
         herobg.style.opacity = "1";
         
         heroTextEl.style.opacity = "1";
-        heroTextEl.style.textAlign = "center";
+
         heroTextEl.style.transform = "translateY(0px)"; // back to original
     }, 1000);
 }
@@ -839,3 +839,7 @@ loadBtn.addEventListener('click', function(){
         loadBtn.style.display= 'none'
     }
 })*/
+// admin panel redirect at icon click
+const admin_icon = document.querySelector('.admin-icon').onclick = ()=>{
+    window.location.href='/admin'
+}

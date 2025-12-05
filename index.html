@@ -19,8 +19,7 @@
 <link rel="manifest" href="/manifest"> <!-- optional, for PWA -->
     <!-- Font Awesome Free CDN -->
     <!-- Font Awesome Free CDN -->
-<link
-  rel="stylesheet"
+<link rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   integrity="sha512-Qq5o1lH+5e7WkV/2aLsh+V5J4oGx7y5wWGL7Xf+Q6z3a0e3NqM1E3Z5s9T0QhzA4ZP+z5+1cB6B6Lk8z4C9TQ=="
   crossorigin="anonymous"
@@ -319,6 +318,7 @@
 <body>
     <div style="width: 100%;display: flex; justify-content: space-evenly; justify-items: center; align-items: center; background: whitesmoke; color: black; text-align: center;"class="banner">
         <p>Wecome to our Store</p><p>Need Help </p>
+        <i href="/login-panel" class="fa fa-sign-in"></i>
     </div>
     <!-- HEADER/NAVIGATION -->
     <header class="header">
@@ -338,6 +338,9 @@
                     <input type="search" id="searchInput" placeholder="Search products..." class="search-input">
                     <button class="search-btn"><i class="fas fa-search"></i></button>
                     <div class="search-results" id="searchResults"></div>
+                </div>
+                <div class="admin-icon">
+                    <i class="fas fa-user"></i>
                 </div>
                  <button id="sec-searchBtn"class=" second search-btn"><i class="fas fa-search"></i></button>
                 <div class="cart-icon" id="cartIcon">
@@ -415,8 +418,8 @@
     </button>
 
     <div class="hero-content fade-in-up animated">
-        <h1>Epic Shutter Hub</h1>
-        <p class="hero-text">Everything You Need For Your Photography & Videography - premium cameras, lenses, lighting, audio,tripods and more</p>
+        <h1>Professional Cameras & Accessories for Every Photographer</h1>
+        <p class="hero-text" style="text-align: center;">Everything You Need For Your Photography & Videography - premium cameras, lenses, lighting, audio,tripods and more</p>
 
         <button class="cta-btn" onclick="window.location.href='/cameras'">
             <i class="bi bi-shop"></i> Shop Now

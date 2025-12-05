@@ -408,6 +408,8 @@ body {
     justify-content: center;
     width: 98%;
     margin-top: 10px;
+    margin-left: auto ;
+    margin-right: auto;
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
@@ -423,6 +425,10 @@ body {
   /*  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
   */
     pointer-events: none;
+}
+.hero-text{
+    text-align: center;
+    width: auto;
 }
 
 .hero-overlay {
@@ -446,7 +452,7 @@ body {
 }
 
 .hero-content h1 {
-    font-size: clamp(3.9rem,calc( 2vw + 1.3rem), 3.8rem);
+    font-size: clamp(2.3rem,calc( 2vw + 1.3rem), 2.8rem);
     margin-bottom: 24px;
     font-weight: 700;
     text-shadow: 0 2px 10px rgba(7, 4, 4, 0.2);
@@ -456,18 +462,20 @@ body {
 }
 /*      animation: glowAnimation 1.5s infinite alternate;*/
 .hero-content p {
-    max-width: 80%;
-    font-size: clamp(1.1rem, 1.5vw, 1.2rem);
+    width: 80%;
+    font-size: clamp(1.1rem, 1.5vw, 1.5rem);
     margin-bottom: 36px;
     opacity: 0.95;
-    place-self: center;
+    justify-self: center;
+    margin-left: auto;
+    margin-right: auto;
     color: #f0f0f5;
     font-weight: 300;
 }
 
 .cta-btn {
     padding: 14px 40px;
-    background: transparent;
+    background: rgba(255, 255, 255, 3);
     color: var(--navy);
     border: 1px solid white;
     border-radius: 8px;
@@ -482,7 +490,7 @@ body {
 }
 
 .cta-btn:hover {
-    background: var(--light-gray);
+    background: rgba(0, 0, 0, 0.15);
     transform: translateY(-3px);
     box-shadow: var(--shadow-xl);
 }
@@ -1901,6 +1909,9 @@ del{
     justify-content: space-between;
 }
 @media screen and (max-width: 480px) {
+    .admin-user{
+        display: none;
+    }
     .product-detail{
     display: flex;
     flex-direction: column;

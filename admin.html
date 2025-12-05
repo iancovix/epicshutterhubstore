@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-Qq5o1lH+5e7WkV/2aLsh+V5J4oGx7y5wWGL7Xf+Q6z3a0e3NqM1E3Z5s9T0QhzA4ZP+z5+1cB6B6Lk8z4C9TQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<!-- Font Awesome Free CDN -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+  integrity="sha512-papQ3a5tF4xDfqVj9K5O/wGk4+oLzrF2FqQ6x5k1lG3D4Cn6gWksuOlfJ+kYvsPAyD2yJq+v4G3B+N9j3W6rKQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-Qq5o1lH+5e7WkV/2aLsh+V5J4oGx7y5wWGL7Xf+Q6z3a0e3NqM1E3Z5s9T0QhzA4ZP+z5+1cB6B6Lk8z4C9TQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<style>
+:root {
+    --primary-dark: #000;
+    --accent: #e2dddd;
+    --light-gray: #f5f5f8;
+    --border-gray: #ddd;
+    --text-dark: #1a1a1a;
+    --text-light: #5a5a6e;
+    --shadow-sm: 0 3px 8px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    background: var(--light-gray);
+    line-height: 1.6;
+}
+
+/* --- HEADER --- */
+.header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #fff;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 1.5rem;
+    display: flex;
+    gap: 1.4rem;
+    justify-content: space-evenly;
+    font-weight: bold;
+    align-items: center;
+    color: var(--primary-dark);
+}
+
+.admin-sign {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- MAIN LAYOUT --- */
+.container {
+    display: flex;
+    min-height: calc(100vh - 70px); /* full screen minus header */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* --- SIDE NAV --- */
+.nav-panel {
+    flex: 0 0 220px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-panel ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.nav-panel li a{
+  color: black;
+  text-decoration: none ;
+  font-weight: 600;
+}
+.nav-panel li {
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.nav-panel a:hover {
+  color: #ff2c2c;
+}
+
+.nav-panel li:hover {
+    background: var(--accent);
+    color: black;
+}
+
+/* --- MAIN CONTENT --- */
+.main {
+    flex: 1;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* --- FORM STYLES --- */
+.admin-box {
+    width: 100%;
+    max-width: 500px;
+    background: var(--light-gray);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin: auto;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-gray);
+    font-size: 0.95rem;
+}
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preview-container img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-dark);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    background: var(--accent);
+}
+
+/* --- TABLE STYLES --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+th, td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-gray);
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+th {
+    background: var(--primary-dark);
+    color: #fff;
+}
+
+img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+    }
+    .nav-panel {
+        flex: 1 1 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        height: auto;
+    }
+    .nav-panel ul {
+        flex-direction: row;
+        gap: 10px;
+    }
+    .main {
+        width: 100%;
+    }
+}
+
+</style>
+</head>
+<body>
+
+    <div class="header">
+                     <div style="padding: 0;" class="logo">
+                <img style="border-radius: 50%;" width="80px" height="80px" src="/logoimg.webp" loading="lazy" alt="logo image">
+                <h1>Epic Shutter Hub</h1>
+            </div>
+            <div class="admin-sign">
+              <p>Logout</p><i onclick="window.location.href='https://epicshutterhub.vercel.app/'" style="background: black; transition: background .3 ease; padding: 10px; color: white;cursor: pointer;"class="fas fa-sign-out-alt"></i>
+            </div>
+    </div>
+    <div class="main">
+
+<div class="nav-panel">
+  <nav class="nav-menu">
+    <ul>
+      <li><a href="">Home </a></li>
+      <li><a href="">Orders</a></li>
+      <li><a href="">Products</a></li>
+      <li><a href="">Store</a></li>
+      <li><a href=""></a></li>
+
+    </ul>
+  </nav>
+</div>
+<!-- PRODUCT FORM -->
+<div class="admin-box">
+  <h2>Admin Panel</h2>
+<div>
+
+  <input type="text" id="pname" placeholder="Product Name">
+  <input type="number" id="price" placeholder="Price">
+  <textarea id="desc" placeholder="Description"></textarea>
+
+  <select id="category">
+    <option disabled selected>Select Category</option>
+    <option>Cameras</option>
+    <option>Lenses</option>
+    <option>Lighting</option>
+    <option>Accessories</option>
+  </select>
+
+  <!-- MULTIPLE IMAGES -->
+  <input type="file" accept="images/*" id="imgFiles" multiple>
+  <div id="preview" class="preview-container"></div>
+
+  <button onclick="saveProduct()">Save Product</button>
+
+  <p id="status"></p>
+
+</div>
+
+
+<!-- PRODUCT LIST TABLE -->
+ <div class="table">
+<h2 style="margin-top:40px;">Product List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Images</th>
+      <th>Price</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody id="productTable"></tbody>
+</table>
+
+</div>
+    </div>
+    </div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+
+<script>
+// TODO: Replace with your Firebase config
+const firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+
+/* saving images mutipoe */
+async function saveProduct() {
+  const name = document.getElementById("pname").value;
+  const price = document.getElementById("price").value;
+  const desc = document.getElementById("desc").value;
+  const cat = document.getElementById("category").value;
+  const files = document.getElementById("imgFiles");
+  const preview = document.getElementById("preview");
+
+files.addEventListener("change", () => {
+  preview.innerHTML = ""; // Clear previous previews
+
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+  if (!name || !price || !desc || !cat || files.length === 0) {
+    document.getElementById("status").innerText = "Fill all fields.";
+    return;
+  }
+
+  document.getElementById("status").innerText = "Uploading images...";
+
+  let imageUrls = [];
+
+  // Upload each image
+  for (let file of files) {
+    const imgRef = storage.ref("products/" + Date.now() + "-" + file.name);
+    await imgRef.put(file);
+    const url = await imgRef.getDownloadURL();
+    imageUrls.push(url);
+  }
+
+  // Save in Firestore
+  await db.collection("products").add({
+    name,
+    price,
+    description: desc,
+    category: cat,
+    images: imageUrls,   // <-- ARRAY OF IMAGES
+    createdAt: Date.now()
+  });
+
+  document.getElementById("status").innerText = "Product Saved ✔";
+}
+
+
+
+/* ------------------------------
+   DISPLAY PRODUCT LIST TABLE
+--------------------------------- */
+db.collection("products")
+  .orderBy("createdAt", "desc")
+  .onSnapshot((snapshot) => {
+    const table = document.getElementById("productTable");
+    table.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const p = doc.data();
+
+      let imgHTML = "";
+      p.images.forEach(url => {
+        imgHTML += `<img src="${url}">`;
+      });
+
+      table.innerHTML += `
+        <tr>
+          <td>${p.name}</td>
+          <td>${imgHTML}</td>
+          <td>$${p.price}</td>
+          <td>${p.category}</td>
+            <td>
+      <button onclick="deleteProduct('${doc.id}', ${JSON.stringify(p.images).replace(/"/g, '&quot;')})">
+        Delete
+      </button>
+    </td>
+        </tr>
+      `;
+    });
+  });
+
+</script>
+
+</body>
+</html>

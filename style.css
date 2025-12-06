@@ -1683,6 +1683,14 @@ del{
         transition: all 0.8s ease;
     }
 @media  screen and (max-width: 480px) {
+    
+.slider .slides img {
+    width: 100%;
+     height: 100%;
+    background-color: transparent;
+    object-fit: contain; 
+    border-radius: 6px;
+}
     .category-secton{
         z-index: 100;
     }
@@ -1769,7 +1777,7 @@ del{
     .slides:hover{
     background: white;
      border: 1px solid rgba(255, 251, 251, 0.308);
-    transform: translateY(-2px) scale(1.03);
+    transform: translateY(-2px) scale(1.0);
 }   
 @media screen and (min-width: 1024px) {
     .category-item{
@@ -1828,7 +1836,7 @@ del{
 .slides:hover img{
     border-radius: 10px;
     box-shadow: 0 4px 20px var(--shadow-lg);
-    transform: translateY(-2px) scale(1.08);
+    transform: translateY(0px) scale(1.0);
 } 
 .nav-menu ul li {
     position: relative;
@@ -1857,7 +1865,7 @@ del{
     text-align: start;
     display: grid;
     align-items: center;
-    justify-content: center;
+    place-content: center;
 }
 .nav-menu .dropdown .drop-content{
     transition: all .3s ease;

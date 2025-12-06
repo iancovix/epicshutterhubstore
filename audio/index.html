@@ -141,6 +141,55 @@
         animation: slideInRight 0.6s ease-out forwards;
     }
 </style>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+                "@type": "Product",
+                "name": "Canon EOS C70",
+                "image": "https://epicshutterhub.vercel.app/canoneosc70.webp",
+                "description": "High-resolution mirrorless camera with 8K video recording.",
+                "sku": "EOS c70",
+                "brand": { "@type": "Brand", "name": "Canon" },
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://epicshutterhub.vercel.app/cameras",
+                    "priceCurrency": "USD",
+                    "price": "3899.00",
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "availability": "https://schema.org/InStock"
+                }
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+                "@type": "Product",
+                "name": "Canon EOS R6 Mark II",
+                "image": "https://epicshutterhub.vercel.app/canoneos6mark2.webp",
+                "description": "45.7MP full-frame mirrorless camera with dual EXPEED 6 processors.",
+                "sku": "EOS 6 Maek II",
+                "brand": { "@type": "Brand", "name": "Canon" },
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://epicshutterhub.vercel.app/cameras",
+                    "priceCurrency": "USD",
+                    "price": "2999.00",
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "availability": "https://schema.org/InStock"
+                }
+            }
+        }
+        /* Add more products here following the same structure */
+    ]
+}
+</script>
 
 <script type="application/ld+json">
 {
@@ -148,42 +197,40 @@
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://epicshutterhub.netlify.app/#organization",
+      "@id": "https://epicshutterhub.vercel.app/#organization",
       "name": "Epic Shutter Hub",
-      "url": "https://epicshutterhub.netlify.app",
-      "logo": "https://epicshutterhub.netlify.app/logo.webp",
+      "url": "https://epicshutterhub.vercel.app",
+      "logo": "https://epicshutterhub.vercel.app/logo.png",
       "description": "Epic Shutter Hub – Your trusted camera gear store providing cameras, lenses, tripods, lighting, and accessories.",
-      "email": "epicshutterhub1@gmail.com",
+      "email": "info@epicshutterhub.com",
       "telephone": "+256753479196",
       "sameAs": [
         "https://facebook.com/epicshutterhub",
         "https://instagram.com/epicshutterhub",
-        "https://wa.me/+27 810901167"
+        "https://wa.me/+27810901167"
       ]
     },
-
     {
       "@type": "WebSite",
-      "@id": "https://epicshutterhub.netlify.app/#website",
-      "url": "https://epicshutterhub.netlify.app",
+      "@id": "https://epicshutterhub.vercel.app/#website",
+      "url": "https://epicshutterhub.vercel.app",
       "name": "Epic Shutter Hub",
       "description": "Professional camera gear store offering cameras, lenses, lighting, and accessories.",
       "publisher": {
-        "@id": "https://epicshutterhub.netlify.app/#organization"
+        "@id": "https://epicshutterhub.vercel.app/#organization"
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://epicshutterhub.netlify.app/search?q={search_term_string}",
+        "target": "https://epicshutterhub.vercel.app/search?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     },
-
     {
       "@type": "LocalBusiness",
-      "@id": "https://epicshutterhub.netlify.app/#localbusiness",
+      "@id": "https://epicshutterhub.vercel.app/#localbusiness",
       "name": "Epic Shutter Hub",
-      "url": "https://epicshutterhub.netlify.app",
-      "image": "https://epicshutterhub.netlify.app/logo.webp",
+      "url": "https://epicshutterhub.vercel.app",
+      "image": "https://epicshutterhub.vercel.app/logo.webp",
       "priceRange": "$$",
       "telephone": "+256753479196",
       "address": {
@@ -193,7 +240,6 @@
         "streetAddress": "Online Store"
       }
     },
-
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -201,45 +247,44 @@
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://epicshutterhub.netlify.app"
+          "item": "https://epicshutterhub.vercel.app"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Cameras",
-          "item": "https://epicshutterhub.netlify.app/cameras"
+          "item": "https://epicshutterhub.vercel.app/cameras"
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "Lenses",
-          "item": "https://epicshutterhub.netlify.app/lenses"
+          "item": "https://epicshutterhub.vercel.app/lenses"
         },
-        ,
         {
           "@type": "ListItem",
           "position": 4,
           "name": "Lighting",
-          "item": "https://epicshutterhub.netlify.app/lighting"
+          "item": "https://epicshutterhub.vercel.app/lighting"
         },
-        ,
-{
-    "@type": "ListItem",
-    "position": 5,
-    "name": "Tripods & Stabilizers",
-    "item": "https://epicshepicshutterhub.netlify.app/tripods-and-stabilizers"
-},
-,
-{
-    "@type": "ListItem",
-    "position": 6,
-    "name": "Audio Equipments",
-    "item": "https://epicshutterhub.netlify.app/audio"
-}
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "name": "Tripods & Stabilizers",
+          "item": "https://epicshutterhub.vercel.app/tripods-and-stabilizers"
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "name": "Audio Equipments",
+          "item": "https://epicshutterhub.vercel.app/audio"
+        }
       ]
     }
   ]
-} </script></head>
+}
+</script>
+</head>
 <body data-page="audio">
     <!-- HEADER/NAVIGATION -->
     <header class="header">

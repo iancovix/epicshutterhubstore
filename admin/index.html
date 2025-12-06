@@ -353,7 +353,7 @@ function closeEditModal(params) {
       return;
     }
 
-    status.innerText = "Uploading images...";
+    status.innerText = "Uploading Product...";
     let imageUrls = [];
     for(let file of files){
       const ref = storage.ref("products/"+Date.now()+"-"+file.name);

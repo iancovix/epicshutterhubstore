@@ -812,7 +812,7 @@ function showSlides() {
         })
         /* for url search Params eg product.html?id=canon&price=2000*/
     
-let allProducts = document.querySelectorAll('.product-card');
+let allProducts = document.querySelectorAll('.product-name');
 allProducts.forEach(product => {
   product.addEventListener('click', () => {
     const name = encodeURIComponent(product.dataset.name); // encode for URL

@@ -274,28 +274,34 @@
       </table>
     </div>
   </div>
-</div>
+</div><script type="module">
+  // IMPORTS
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getDatabase } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+  import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-
-<script>
-  // --- Firebase Config ---
+  // CONFIG
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyB235hCAouus9JhFLpWJ64DiXVvNaGYNm0",
+    authDomain: "epicshutterhub-ee0d9.firebaseapp.com",
+    projectId: "epicshutterhub-ee0d9",
+    storageBucket: "epicshutterhub-ee0d9.firebasestorage.app",
+    messagingSenderId: "49117682378",
+    appId: "1:49117682378:web:7ebc026bb467eac04ab233",
+    measurementId: "G-WV4SM92954"
   };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
-  const auth = firebase.auth();
+
+  // INIT
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const auth = getAuth(app);
+
+  // TEST
+  console.log("Firebase Connected:", app);
+
 
 // --- ADMIN NAV FUNCTIONS ---
 function showAddProduct(){
@@ -417,8 +423,7 @@ function closeEditModal(params) {
     .catch(err=>console.error(err));
   });
 
-</script>
-<script>
+
   let editProductId = null;
   let existingImages = [];
 
@@ -507,7 +512,7 @@ function showPopup(message, duration = 3000) {
 <!--
 admin access pane -->
 <script>
-document.getElementById("accessForm").addEventListener("submit", function(e) {
+const form = document.getElementById("accessForm").addEventListener("submit", function(e) {
   e.preventDefault(); // prevent form from submitting
 
   const username = document.getElementById("username").value;
@@ -519,6 +524,7 @@ document.getElementById("accessForm").addEventListener("submit", function(e) {
 
   if(username === validUsername && password === validPassword){
     // Credentials correct, hide the form
+form.reset();
     document.getElementById("access").style.display = "none";
     showPopup("Access granted!"); // optional: show a popup
   } else {

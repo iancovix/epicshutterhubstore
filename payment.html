@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>EpicShutterHub — Payment</title>
+  <style>
+    body { font-family: sans-serif; background: #F7F9FC; margin:0; padding: 20px; }
+    .container{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-container { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .form-container input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    .error { color: red; font-size: 0.9rem; display: none; }
+    .btn { background: #0073FF; color: white; padding: 12px; border:none; border-radius: 4px; cursor: pointer; width: 100%; }
+    .btn:disabled { background: #aaa; }
+            .img img{
+    border-radius: 100%;
+    height: clamp(70px, calc(2vw+10px),80px);
+    width: clamp(70px, calc(2vw+10px),80px);
+}
+  </style>
+</head>
+<body>
+<div class="container">
+         <div class="image">
+                <img width="100px" style="align-self: center; " height="100px" src="/logoimg.webp" alt="">
+        </div>
+<div class="form-container">
+       
+  <h2>Payment</h2>
+  <div>
+    <label>Full Name</label>
+    <input type="text" id="name" placeholder="John Doe" required />
+    <div class="error" id="err-name">Please enter your name.</div>
+  </div>
+  <div>
+    <label>Email</label>
+    <input type="email" id="email" placeholder="you@example.com" required />
+    <div class="error" id="err-email">Please enter a valid email.</div>
+  </div>
+  <div>
+    <label>Amount (UGX)</label>
+    <input type="number" id="amount" value="1000" min="1" required />
+    <div class="error" id="err-amount">Please enter amount.</div>
+  </div>
+  <button class="btn" id="payBtn">Pay Now</button>
+</div>
+</div>
+<script>
+  const payBtn = document.getElementById('payBtn');
+  payBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    // Basic client-side validation
+    let valid = true;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!name) { document.getElementById('err-name').style.display = 'block'; valid = false; } else document.getElementById('err-name').style.display = 'none';
+    if (!email || !email.includes('@')) { document.getElementById('err-email').style.display = 'block'; valid = false; } else document.getElementById('err-email').style.display = 'none';
+    if (!amount || amount <= 0) { document.getElementById('err-amount').style.display = 'block'; valid = false; } else document.getElementById('err-amount').style.display = 'none';
+
+    if (!valid) return;
+
+    // Send request to backend to create PesaPal order
+    try {
+      const resp = await fetch('/create-pesapal-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, amount, currency: 'UGX' })
+      });
+      const data = await resp.json();
+      if (data && data.payment_url) {
+        window.location.href = data.payment_url;  // redirect user to PesaPal payment page
+      } else {
+        alert('Payment initialization failed. Try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error. Could not initiate payment.');
+    }
+  });
+</script>
+
+</body>
+</html>

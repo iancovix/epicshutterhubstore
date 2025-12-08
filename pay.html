@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout</title>
+</head>
+<body>
+  <!-- your form, delivery, card inputs, etc. -->
+  <form id="checkout">
+        <input type="text"><input type="email"><input type="text"></input></input>
+    <!-- include inputs for delivery, amount, user info... -->
+    <button type="submit">Pay Now</button>
+  </form>
+
+  <script>
+    document.getElementById('checkout').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // collect relevant data
+      const payload = {
+        amount: 50.00,
+        currency: 'USD',
+        description: 'Order #1234',
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'customer@example.com',
+        callback_url: window.location.origin + '/payment-complete'
+      };
+      const resp = await fetch('/create-order', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const data = await resp.json();
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      } else {
+        alert('Payment initiation failed');
+      }
+    });
+  </script>
+</body>
+</html>

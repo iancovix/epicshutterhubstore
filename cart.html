@@ -559,8 +559,10 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = subtotal > 100 ? 0 : 15;
             const total = subtotal + shipping;
-
+// payment notification
+/*
             showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`);
+            */
             cart = [];
             saveCartToStorage();
             
@@ -710,10 +712,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         switch (method) {
             case 'MasterCard':
+                
+                msg.textContent = 'Please enter your card details below';
+                msg.style.background = '#ff0000';
+                msg.style.color = 'rgb(255,0,0)';
+                break;
             case 'Visa':
                 msg.textContent = 'Please enter your card details below';
-                msg.style.background = '#e8f5e9';
-                msg.style.color = '#2e7d32';
+                msg.style.background = '#1A1F71';
+                msg.style.color = '#FFFFFF';
                 break;
             case 'MTN Mobile Money':
                 msg.textContent = 'You will receive a payment prompt on your MTN number';

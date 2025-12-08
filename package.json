@@ -2,9 +2,9 @@
   "name": "epic-shutter-hub",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,10 +12,13 @@
   "type": "module",
   "dependencies": {
     "axios": "^1.13.2",
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.11",
+    "pesapaljs-v3": "^1.0.13",
     "socket-io": "^1.0.0",
     "vite": "^7.2.6"
   }

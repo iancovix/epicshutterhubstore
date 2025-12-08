@@ -524,9 +524,14 @@ const form = document.getElementById("accessForm").addEventListener("submit", fu
 
   if(username === validUsername && password === validPassword){
     // Credentials correct, hide the form
-form.reset();
+
     document.getElementById("access").style.display = "none";
-    showPopup("Access granted!"); // optional: show a popup
+    showPopup("Access granted!");
+    username.value = "";
+    password.value= "";
+
+
+    form.reset(); // optional: show a popup
   } else {
     // Invalid credentials
     window.history.back();

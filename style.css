@@ -209,6 +209,14 @@ body {
     border-radius: 1px;
     transition: all 0.3s ease;
 }
+body {
+  scrollbar-width: none; /* for Firefox */
+  -ms-overflow-style: none; /* for Internet Explorer & Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, Opera */
+}
 
 .hamburger.active span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);

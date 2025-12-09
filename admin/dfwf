@@ -1,0 +1,224 @@
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyA3cpEnOe_IyRhhPDKSsQuTZll-Ud38guE",
+    authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
+    databaseURL: "https://epicshutterhubstore-d41da-default-rtdb.firebaseio.com",
+    projectId: "epicshutterhubstore-d41da",
+    storageBucket: "epicshutterhubstore-d41da.firebasestorage.app",
+    messagingSenderId: "12540619912",
+    appId: "1:12540619912:web:6f31eab47fe31dd800433d"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  import{getDatabase,ref,child,get,set,update,remove} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+  const db = getDatabase();
+
+
+// --- ADMIN NAV FUNCTIONS ---
+function showAddProduct(){
+  document.getElementById("addProductBox").style.display = "block";
+  document.getElementById("productListBox").style.display = "none";
+  document.getElementById("editModal").style.display = "none";
+}
+
+function showProductList(){
+  document.getElementById("addProductBox").style.display = "none";
+  document.getElementById("productListBox").style.display = "block";
+  document.getElementById("editModal").style.display = "none";
+}
+
+function editProduct(){  
+  document.getElementById("editModal").style.display = "flex";
+  document.getElementById("addProductBox").style.display = "none";
+  document.getElementById("productListBox").style.display = "none";
+}
+function closeEditModal(params) {
+  
+    document.getElementById("editModal").style.display = "none";  
+  document.getElementById("addProductBox").style.display = "block";
+  document.getElementById("productListBox").style.display = "none";
+}
+
+  // --- IMAGE PREVIEW ---
+  const imgInput = document.getElementById("imgFiles");
+  const preview = document.getElementById("preview");
+  imgInput.addEventListener("change", ()=>{
+    preview.innerHTML = "";
+    Array.from(imgInput.files).forEach(file=>{
+      if(!file.type.startsWith("image/")) return;
+      const reader = new FileReader();
+      reader.onload = (e)=>{
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        preview.appendChild(img);
+      }
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // --- SAVE PRODUCT --- image wont be saved right now coz am sti testing   const files = document.getElementById("imgFiles").files;
+  async function saveProduct(){
+    const name = document.getElementById("pname").value;
+    const price = document.getElementById("price").value;
+    const desc = document.getElementById("desc").value;
+    const cat = document.getElementById("category").value;
+
+    const status = document.getElementById("status");
+
+    if(!name || !price || !desc || !cat || files.length===0){
+      status.innerText = "Fill all fields.";
+      return;
+      set(ref(db,'product/'+ name),{
+        name : name,
+        category: cat,
+        description: desc,
+        price: Number(price)})
+        .then(()=>{
+          alert("Product Saved Successfully")
+        })
+        .catch((error)=>{
+          console.log(error);
+          alert("unsuccessfull")
+        })
+      }
+    
+
+    status.innerText = "Uploading Product...";
+        status.innerText = "Product Saved ✔";
+  
+    preview.innerHTML = "";
+    document.getElementById("pname").value="";
+    document.getElementById("price").value="";
+    document.getElementById("desc").value="";
+    document.getElementById("category").selectedIndex=0;
+  }
+    /*
+      imgInput.value = "";
+    let imageUrls = [];
+    for(let file of files){
+      const ref = storage.ref("products/"+Date.now()+"-"+file.name);
+      await ref.put(file);
+      const url = await ref.getDownloadURL();
+      imageUrls.push(url);
+    }
+
+    await set(ref(db,"products/"+ name),{
+     name: name, 
+     category: cat,
+      price: price,
+      description: desc 
+    })
+    */
+
+
+
+  // --- DISPLAY PRODUCTS ---
+  const productTable = document.getElementById("productTable");
+  const dbRef = ref(db);
+  get(child(dbRef,'products/'+ name)).then((snapshot)=>{
+    if (snapshot.exists()) {
+       snapshot.forEach(childSnap => {
+                    const product = childSnap.val();
+
+                    // Create table row
+                    const tr = document.createElement("tr");
+
+                    tr.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.price}</td>
+                        <td>${product.description}</td>
+                    `;
+
+                    productBody.appendChild(tr);
+                });
+
+
+      
+    }else{
+      alert ('product doesnt exist')
+    }
+  }).catch((error)=>{
+    console.log(error)
+  })
+  /*
+    let imgHTML = "";
+      p.images.forEach(url => imgHTML+=`<img src="${url}">`);
+      productTable.innerHTML+=`
+        <tr>
+          <td>${p.name}</td>
+          <td>${imgHTML}</td>
+          <td>$${p.price}</td>
+          <td>${p.category}</td>
+          <td>
+            <button onclick="deleteProduct('${doc.id}', ${JSON.stringify(p.images).replace(/"/g,'&quot;')})">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+  })
+}*/
+
+  // --- DELETE PRODUCT ---
+  async function deleteProduct(){
+ 
+  }
+
+  // --- SIGN OUT ---
+  const signOutBtn = document.getElementById("signOutBtn");
+  signOutBtn.addEventListener("click", ()=>{
+    auth.signOut().then(()=>{ alert("Signed out"); window.location.href="https://epicshutterhub.vercel.app"; })
+    .catch(err=>console.error(err));
+  });
+
+
+  let editProductId = null;
+  let existingImages = [];
+
+  // Function to open edit modal (you already have this)
+  function updateProduct(id, data){
+    editProductId = id;
+    document.getElementById("editName").value = data.name;
+    document.getElementById("editPrice").value = data.price;
+    document.getElementById("editDesc").value = data.description;
+    document.getElementById("editCategory").value = data.category;
+
+    existingImages = data.images;
+    const editPreview = document.getElementById("editPreview");
+    editPreview.innerHTML = "";
+    data.images.forEach(url => {
+      const img = document.createElement("img");
+      img.style.marginBottom= "10px";
+      img.src = url;
+      editPreview.appendChild(img);
+    });
+
+    document.getElementById("editModal").style.display = "flex";
+    document.getElementById("addProductBox").style.display = "none";
+    document.getElementById("productListBox").style.display = "none";
+  }
+
+  // ✅ Save changes function
+  async function saveProductChanges() {
+
+      }
+
+      const updatedData = {
+        name: document.getElementById("editName").value,
+        price: Number(document.getElementById("editPrice").value),
+        description: document.getElementById("editDesc").value,
+        category: document.getElementById("editCategory").value,
+        images: existingImages
+      }; 
+      function updateProduct(){
+
+      }
+</script>

@@ -2,38 +2,36 @@
 <html lang="en">
 <head>
     <!-- Primary favicon -->
-<link rel="icon" type="image/webp" sizes="32x32" href="https://epicshutterhub.netlify.app/logoimg.webp">
-<link rel="icon" type="image/png" sizes="16x16" href="https://epicshutterhub.netlify.app/logoimg.png">
-<link rel="shortcut icon" href="https://epicshutterhub.netlify.app/logoimg.webp">
+<link rel="icon" type="image/webp" sizes="32x32" href="https://epicshutterhub.vercel.app/logoimg.webp">
+<link rel="icon" type="image/png" sizes="16x16" href="https://epicshutterhub.vercel.app/logoimg.png">
+<link rel="shortcut icon" href="https://epicshutterhub.vercel.app/logoimg.webp">
 
 <!-- Apple Touch Icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="https://epicshutterhub.netlify.app/logoimg.webp">
-<link rel="apple-touch-icon" sizes="167x167" href="https://epicshutterhub.netlify.app/logoimg.webp">
-<link rel="apple-touch-icon" sizes="152x152" href="https://epicshutterhub.netlify.app/logoimg.webp">
+<link rel="apple-touch-icon" sizes="180x180" href="https://epicshutterhub.vercel.app/logoimg.webp">
+<link rel="apple-touch-icon" sizes="167x167" href="https://epicshutterhub.vercel.app/logoimg.webp">
+<link rel="apple-touch-icon" sizes="152x152" href="https://epicshutterhub.vercel.app/logoimg.webp">
 
 <!-- Windows 8/10/11 tiles -->
 <meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="https://epicshutterhub.verce.app/logoimg.webp">
+<meta name="msapplication-TileImage" content="https://epicshutterhub.vercel.app/logoimg.webp">
 
 <!-- Android Chrome -->
 <link rel="manifest" href="/manifest"> <!-- optional, for PWA -->
     <!-- Font Awesome Free CDN -->
     <!-- Font Awesome Free CDN -->
 <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  integrity="sha512-Qq5o1lH+5e7WkV/2aLsh+V5J4oGx7y5wWGL7Xf+Q6z3a0e3NqM1E3Z5s9T0QhzA4ZP+z5+1cB6B6Lk8z4C9TQ=="
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-  integrity="sha512-Qq5o1lH+5e7WkV/2aLsh+V5J4oGx7y5wWGL7Xf+Q6z3a0e3NqM1E3Z5s9T0QhzA4ZP+z5+1cB6B6Lk8z4C9TQ=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="canonical" href="https://epicshutterhub.netlify.app/">
+    <link rel="canonical" href="https://epicshutterhub.vercel.app/">
     <meta name="keywords" content="camera store, canon cameras, nikon cameras, sony cameras, lenses, lighting equipment, photography gear, Uganda camera shop, camera accessories">
   <!-- Open Graph / Facebook -->
   <link rel="shortcut icon" type="image/webp" href="/logoimg.webp">
@@ -41,8 +39,8 @@
 <meta name="description" content="Epic Shutter Hub is your trusted store for cameras, lenses, lighting equipment, studio gear, and accessories. Shop top brands like Canon, Nikon, Sony, and get expert guidance for photography.">
 <meta property="og:description" content="Shop premium cameras, lenses, lighting, tripods, and photography accessories at Epic Shutter Hub. Fast delivery, secure checkout, top-quality equipment.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://epicshutterhub.netlify.app/">
-<meta property="og:image" content="https://epicshutterhub.netlify.app/logoimg.webp">
+<meta property="og:url" content="https://epicshutterhub.vercel.app/">
+<meta property="og:image" content="https://epicshutterhub.vercel.app/logoimg.webp">
 <meta property="og:site_name" content="Epic Shutter Hub">
 <meta property="og:locale" content="en_US" />
 
@@ -52,7 +50,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Epic Shutter Hub | Cameras & Photography Gear">
 <meta name="twitter:description" content="Discover cameras, lenses, lighting kits and professional photography gear at Epic Shutter Hub.">
-<meta name="twitter:image" content="https://epicshutterhub.netlify.app/logoimg.webp">
+<meta name="twitter:image" content="https://epicshutterhub.vercel.app/logoimg.webp">
     <meta property="theme-color" content="#0f0f1e">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -329,7 +327,11 @@
           
                <div style="padding: 0;" class="logo">
                 <img style="border-radius: 50%;" width="80px" height="80px" src="/logoimg.webp" loading="lazy" alt="logo image">
-                <h1>Epic Shutter Hub</h1>
+                <div class="logoword">
+                    <h1>Epic Shutter Hub</h1>
+                    <p>Capture Brilliance</p>
+
+                </div>
             </div>
             <div class="header-actions">
                 <div class="search-container">
@@ -342,7 +344,7 @@
                 </div>
                  <button id="sec-searchBtn"class=" second search-btn"><i class="fas fa-search"></i></button>
                 <div class="cart-icon" id="cartIcon">
-                    <i class="fas fa-shopping-bag"></i>
+                    <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">1</span>
                 </div>
                
@@ -352,14 +354,13 @@
         </div>
 
         <!-- NAVIGATION MENU -->
-        <nav class="nav-menu" id="navMenu">
+        <nav class="nav-menu" style="display: none" id="navMenu">
             <ul>
                 <li class="dropdown"><a href="/cameras" class="nav-link">Cameras</a>
                 <ul class="drop-content">
                     <li><a href="/cameras">DSLR</a>
                     </li><li><a href="/cameras">Mirrorless</a></li> 
                     </li><li><a href="/cameras">Video Cameras</a></li> 
-                    </li><li><a href="/cameras"></a></li> 
                         
                 </ul>
             </li>
@@ -425,7 +426,27 @@
         </button>
     </div>
 </section>
+<!-- Featured Category-->
+ <div class="featured-category">
+    <h2>Featured Categories</h2>
+    <div class="category-carousel">
+        <div class="category-btns">
+            <button onclick="getCategory('cameras')" class="c-btn">Cameras</button>
+            <button onclick="getCategory('Lenses')" class="c-btn">Lenses</button>
+            <button onclick="getCategory('audio')" class="c-btn">Audio</button>
+            <button onclick="getCategory('Lighting')" class="c-btn">Lighting</button>
+            <button onclick="getCategory('accessories')" class="c-btn">Accessories</button>
+            <button onclick="getCategory('tripods')" class="c-btn">Tripods &amp; Stabilizers</button>
+        </div>
+        <div id="category-products" class="category-products">
 
+        </div>
+
+    </div>
+    <div>
+
+    </div>
+ </div>
     <!-- FEATURED SECTION -->
     <div class="featured-products">
         <h2>Featured Products</h2>
@@ -1257,15 +1278,66 @@ Removable Front & Inner Diffuser</p>
   } else {
     // Show popup
     document.getElementById("cookiePopup").style.display = "block";
+    // Set cookie for 1 year and hide popup
+    function acceptCookies() {
+      const date = new Date();
+      date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000)); // 1 year
+      document.cookie = "cookieConsent=true; expires=" + date.toUTCString() + "; path=/";
+      document.getElementById("cookiePopup").style.display = "none";
+    }
   }
+  </script>
+  <script type="module">
 
-  // Set cookie for 1 year and hide popup
-  function acceptCookies() {
-    const date = new Date();
-    date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000)); // 1 year
-    document.cookie = "cookieConsent=true; expires=" + date.toUTCString() + "; path=/";
-    document.getElementById("cookiePopup").style.display = "none";
-  }
+  
+  import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
+  import {getDatabase, ref,get} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js';
+  const firebaseConfig = {
+  apiKey: "AIzaSyA3cpEnOe_IyRhhPDKSsQuTZll-Ud38guE",
+  authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
+  databaseURL: "https://epicshutterhubstore-d41da-default-rtdb.firebaseio.com",
+  projectId: "epicshutterhubstore-d41da",
+  storageBucket: "epicshutterhubstore-d41da.firebasestorage.app",
+  messagingSenderId: "12540619912",
+  appId: "1:12540619912:web:6f31eab47fe31dd800433d"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+window.getCategory = function(categoryInput){
+
+const sRef = ref(db, `products/${categoryInput}`);
+get(sRef).then((snapshot)=>{
+    if (snapshot.exists()) {
+        const products = snapshot.val();
+        Object.keys(products).forEach(id=>{
+            const item = products[id];
+            const categoryGrid= document.getElementById("category-products");
+            const card = document.createElement('div');
+        card.className= 'product-card ';
+        card.dataset.name= item.name;
+        card.innerHTML = `
+
+                <div class="product-image">
+                    <img  width="100%" height="100%" src="${item.image || 'placeholder.jpg'}" loading="lazy" alt="${item.name}">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">${item.category}</span>
+                    <h3 class="product-name">${item.name}</h3>
+                    <p class="product-description">${item.description}</p>
+                    <div class="product-price">${item.price}</div>
+                    <button class="add-to-cart" data-product="${item.name}" data-price="${item.price}">Add to Cart</button>
+                </div>`;
+                categoryGrid.innerHTML += card;
+        })
+        
+    }
+}).catch((error)=>{
+    alert(error)
+})
+
+
+}
+
 </script>
 
 </body>

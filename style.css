@@ -161,7 +161,7 @@ body {
     justify-content: space-between;
     place-items: center;
     width: 100%;
-    padding: 16px 24px;
+    padding: 5px 20px;
     gap: 30px;
 }
 
@@ -577,10 +577,57 @@ body::-webkit-scrollbar {
     color: var(--text-light);
     font-weight: 400;
 }
+.featured-category{
+    margin: 20px auto;
+    width: 100%;
+}
+.category-carousel{
+    overflow-x: auto;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6px;
+}
+.category-btns{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    margin: 5px auto;
+}
+.category-btns .c-btn{
+    padding: 5px 16px;
+        transition: all .5s ease;
+        border-radius: 20px;
+        font-weight: 400;
+        border: none;
+    font-family: "Inter",sans-serif;
+    color: white;
+    cursor: pointer;
+    white-space: nowrap;
+    background: rgb(140, 12, 12);
+    margin: 3px;
+}
+.featured-category h2{
+    font-weight: 600;
+    text-align: center;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-size: clamp(1.4rem,calc(2vw+ .3rem), 1.8rem);
+}
+
+    .category-btns .c-btn::hover{
+        background-color: #eed3d3dd;
+        border: 1px solid rgba(196, 49, 49, 0.845);
+    
+    }
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    width: 90%;
+    margin: auto;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 0px;
 }
 
@@ -1105,6 +1152,38 @@ header{
 }
 /*the responsive of my website*/
 @media (max-width: 768px) {
+       
+.category-carousel{
+    overflow-x: auto;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6px;
+}
+.category-btns{
+    scroll-snap-type: mandatory;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    margin: 5px auto;
+}
+.category-btns .c-btn{
+    scroll-snap-align: start;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: 400;
+    border: none;
+    font-family: "Inter",sans-serif;
+    color: white;
+    cursor: pointer;
+    min-width: 40%;
+    white-space: nowrap;
+    background: rgb(140, 12, 12);
+    margin: 3px;
+}
     .hamburger {
         display: flex;
     }
@@ -1153,7 +1232,7 @@ header{
     }
 
     .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 3px;
         width: 100%;
     }
@@ -1697,11 +1776,49 @@ body p{
     }
 @media  screen and (max-width: 480px) {
     
+.category-carousel{
+    overflow-x: auto;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 6px;
+}
+.category-btns{
+    scroll-snap-type: mandatory;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    margin: 5px auto;
+}
+.category-btns .c-btn{
+    scroll-snap-align: start;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 400;
+    border: none;
+    font-family: "Inter",sans-serif;
+    color: white;
+    cursor: pointer;
+    min-width: 26%;
+    white-space: nowrap;
+    background: rgb(140, 12, 12);
+    margin: 3px;
+}
+.featured-category h2{
+    font-weight: 600;
+    text-align: center;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-size: clamp(1.4rem,calc(2vw+ .3rem), 1.8rem);
+}
+    
 .slider .slides img {
     width: 100%;
      height: 100%;
     background-color: transparent;
-    object-fit: contain; 
+    object-fit: cover; 
     border-radius: 6px;
 }
     .category-secton{
@@ -1712,7 +1829,7 @@ body p{
     }
   .products-grid{
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 140px);
   }  
 }
 .featured-products p{
@@ -2042,9 +2159,6 @@ del{
 @media screen and (min-width: 481px){
     .category-item{
     flex: 1 1 48%;}
-    .second{
-        display: none;
-    }
 .badge{
     display: none;
 }

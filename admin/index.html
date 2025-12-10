@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glass Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* ----------------- GLOBAL ----------------- */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+  body, html { width:100%; height:100%; background: linear-gradient(135deg, #ff2c2c, black); overflow-x:hidden;}
+  h2 { font-weight:600; margin-bottom:15px; }
+
+  /* ----------------- POPUP ----------------- */
+  .popup {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.5); display:none; justify-content:center; align-items:center; z-index:9999;
+  }
+  .popup-content {
+    background: rgba(255,255,255,0.9); padding:20px 30px; border-radius:12px; font-weight:600; font-size:1.2rem;
+    backdrop-filter: blur(10px); box-shadow:0 8px 25px rgba(0,0,0,0.2);
+  }
+
+  /* ----------------- LOGIN ----------------- */
+  #loginBox {
+    width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:fixed; top:0; left:0; z-index:1000;
+    background: rgba(0,0,0,0.6);
+  }
+  #loginForm {
+    background: rgba(255,255,255,0.2); padding:40px; border-radius:20px; backdrop-filter:blur(15px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.3); display:flex; flex-direction:column; gap:15px; width:320px;
+  }
+  #loginForm input { padding:12px; border:none; border-radius:10px; background:rgba(255,255,255,0.3); color:#fff; font-size:1rem; }
+  #loginForm button { padding:12px; border:none; border-radius:10px; background:#bc3540; color:#fff; font-weight:600; cursor:pointer; transition:0.2s;}
+  #loginForm button:hover { background:rgb(177, 72, 72); }
+
+  /* ----------------- DASHBOARD ----------------- */
+  .dashboard { display:flex; min-height:100vh; padding-top:60px; }
+
+  /* Sidebar */
+  .sidebar {
+    width:220px; background: rgba(255,255,255,0.1); backdrop-filter:blur(10px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2); padding:20px 0; display:flex; flex-direction:column;
+  }
+  .sidebar h1 { text-align:center; color:#fff; margin-bottom:30px; font-size:1.5rem; }
+  .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:10px; padding:0 20px; }
+  .sidebar ul li { padding:12px; border-radius:10px; cursor:pointer; color:#fff; transition:0.2s; text-align:center; }
+  .sidebar ul li:hover { background: rgba(255,255,255,0.3); }
+
+  /* Main content */
+  .main { flex:1; padding:30px; display:flex; flex-direction:column; gap:20px; }
+
+  /* Forms */
+  .glass-card { background: rgba(255,255,255,0.2); backdrop-filter: blur(15px); padding:25px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;}
+  .glass-card input, .glass-card select, .glass-card textarea { padding:12px; border:none; border-radius:10px;margin: 10px; background:rgba(255,255,255,0.3); color: black; font-size:1rem; width:100%; }
+  .glass-card button { padding:12px; border:none; border-radius:10px; background:#bd3843; color:#fff; font-weight:600; cursor:pointer; transition:0.2s; }
+  .glass-card button:hover { background:rgb(207, 52, 52); }
+
+  /* Product Table */
+  table { width:100%; border-collapse:collapse; border-radius:12px; overflow:hidden; box-shadow:0 8px 25px rgba(0,0,0,0.2);}
+  th, td { padding:12px; text-align:left; font-size:0.95rem; border-bottom:1px solid rgba(255,255,255,0.3); color:#fff;}
+  th { background: rgba(255,255,255,0.2); }
+  td img { width:50px; height:50px; border-radius:8px; object-fit:cover; }
+  td button { margin-right:5px; padding:6px 10px; border:none; border-radius:6px; cursor:pointer; font-weight:600; transition:0.2s; }
+  td button:hover { opacity:0.8; }
+.logo img{
+    border-radius: 100%;
+    height: clamp(70px, calc(2vw+10px),80px);
+    width: clamp(70px, calc(2vw+10px),80px);
+}
+  /* Responsive */
+  @media screen and (max-width:768px){
+    .dashboard { flex-direction:column; }
+    .sidebar { width:80%;margin: auto; flex-direction:row; overflow-x:auto; gap: 0; justify-content:center; }
+    .sidebar ul { flex-direction:row; gap:10px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <form id="loginForm">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<!-- POPUP -->
+<div id="successPopup" class="popup">
+  <div class="popup-content" id="popupMessage">Success!</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" style="display:none;">
+  <div class="sidebar">
+    <ul>
+      <li id="navAdd">Add Product</li>
+      <li id="navList">Product List</li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <!-- ADD PRODUCT FORM -->
+    <div class="glass-card" id="addBox">
+      <h2>Add Product</h2>
+      <input type="text" id="pname" placeholder="Product Name">
+      <input type="number" id="price" placeholder="Price">
+      <textarea id="desc" placeholder="Description"></textarea>
+      <select id="category">
+        <option disabled selected>Select Category</option>
+        <option>Cameras</option>
+        <option>Lenses</option>
+        <option>Lighting</option>
+        <option>Accessories</option>
+      </select>
+      <button onclick="saveProduct()">Save Product</button>
+    </div>
+
+    <!-- PRODUCT TABLE -->
+    <div class="glass-card" id="listBox" style="display:none;">
+      <h2>Products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, set, push, get, child, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+/* Firebase config */
+const firebaseConfig = {
+  apiKey: "AIzaSyA3cpEnOe_IyRhhPDKSsQuTZll-Ud38guE",
+  authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
+  databaseURL: "https://epicshutterhubstore-d41da-default-rtdb.firebaseio.com",
+  projectId: "epicshutterhubstore-d41da",
+  storageBucket: "epicshutterhubstore-d41da.firebasestorage.app",
+  messagingSenderId: "12540619912",
+  appId: "1:12540619912:web:6f31eab47fe31dd800433d"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase();
+
+const loginBox = document.getElementById("loginBox");
+const dashboard = document.querySelector(".dashboard");
+const addBox = document.getElementById("addBox");
+const listBox = document.getElementById("listBox");
+const productBody = document.getElementById("productBody");
+let editingKey = null;
+
+/* Login */
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "12345";
+
+document.getElementById("loginForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+  if(u===ADMIN_USER && p===ADMIN_PASS){
+    loginBox.style.display="none";
+    dashboard.style.display="flex";
+    showAdd();
+  } else alert("Invalid login");
+});
+
+/* Popup */
+function showPopup(msg){
+  const box = document.getElementById("successPopup");
+  document.getElementById("popupMessage").textContent = msg;
+  box.style.display="flex";
+  setTimeout(()=> box.style.display="none",1500);
+}
+
+/* NAVIGATION */
+document.getElementById("navAdd").onclick = showAdd;
+document.getElementById("navList").onclick = showList;
+
+function showAdd(){
+  addBox.style.display="block";
+  listBox.style.display="none";
+}
+function showList(){
+  loadProducts();
+  listBox.style.display="block";
+  addBox.style.display="none";
+}
+
+/* SAVE PRODUCT */
+window.saveProduct = async function(){
+  const name = document.getElementById("pname").value.trim();
+  const price = document.getElementById("price").value;
+  const desc = document.getElementById("desc").value;
+  const cat = document.getElementById("category").value;
+  if(!name||!price||!desc||!cat){ showPopup("Fill all fields!"); return; }
+
+  const refKey = editingKey ? ref(db,"products/"+editingKey) : push(ref(db,"products"));
+  await set(refKey,{name, price:Number(price), description:desc, category:cat});
+  showPopup("Product saved!");
+  document.getElementById("pname").value="";
+  document.getElementById("price").value="";
+  document.getElementById("desc").value="";
+  document.getElementById("category").value="";
+  editingKey = null;
+  showList();
+}
+
+/* LOAD PRODUCTS */
+function loadProducts(){
+  get(child(ref(db),"products")).then(snap=>{
+    productBody.innerHTML="";
+    if(!snap.exists()) return;
+    snap.forEach(item=>{
+      const p=item.val();
+      const key=item.key;
+      productBody.innerHTML+=`
+      <tr>
+        <td>${p.name}</td>
+        <td>$${p.price}</td>
+        <td>${p.category}</td>
+        <td>
+          <button onclick="editProduct('${key}')">Edit</button>
+          <button onclick="deleteProduct('${key}')">Delete</button>
+        </td>
+      </tr>`;
+    });
+  });
+}
+
+/* EDIT PRODUCT */
+window.editProduct = async function(key){
+  editingKey = key;
+  const snap = await get(ref(db,"products/"+key));
+  if(!snap.exists()){ showPopup("Product not found"); return; }
+  const p = snap.val();
+  document.getElementById("pname").value=p.name;
+  document.getElementById("price").value=p.price;
+  document.getElementById("desc").value=p.description;
+  document.getElementById("category").value=p.category;
+  showAdd();
+  showPopup("Edit Mode Enabled");
+}
+
+/* DELETE PRODUCT */
+window.deleteProduct = async function(key){
+  if(!confirm("Delete this product?")) return;
+  await remove(ref(db,"products/"+key));
+  showPopup("Product deleted!");
+  loadProducts();
+}
+
+</script>
+</body>
+</html>

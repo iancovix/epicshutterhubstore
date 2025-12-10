@@ -341,6 +341,7 @@
             background: #00aa00;
             color: white;
             border: none;
+
             padding: 14px;
             border-radius: 6px;
             font-weight: 700;
@@ -559,7 +560,7 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = subtotal > 100 ? 0 : 15;
             const total = subtotal + shipping;
-// payment notification
+// payment notification front popup
 /*
             showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`);
             */
@@ -746,6 +747,54 @@ document.addEventListener('DOMContentLoaded', function () {
         paymentSelect.parentNode.appendChild(msg);
     });
 });
+// payment fetch pesapal
+async function confirmOrder(){
+    try{
+    const req =await fetch('/submit-order',{
+        method:"POST",
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            amount: amount,
+            description : `Payment for ${products}`,
+            phone: `${phone}`
+        })
+    });
+    const {paymentUrl}= await req.json();
+    if (payment) {
+        window.ocation.href=paymentUrl
+        
+    }else{
+        alert('Payment INITIATION failed')
+    }
+} catch(error){
+    console.log(error)
+    alert('Payment Error Occured');
+    
+}
+window.addEventListener('load',()=>{
+    const urlParams = new URLSearchParams(window.location.search);
+    const reference = urlParams.get('pesapal_transaction_tracking_id') 
+    const status = urlParams.get('pesapal_merchant_reference') ;
+    if (reference) {
+       //query status from backend 
+        fetch(`/payment-status/${reference}`)
+        .then((res)=>{
+            res.json()
+        })
+        .then((data) =>{
+            if (data.status === 'COMPLETED') {
+                alert('Payment Successful')
+                //should show or update ui with a confirmation message
+                
+            } else {
+             alert('Payment pending or failed')   
+            }
+        });
+    } 
+})
+}
 </script>
     <!-- PAYMENT POPUP MODAL -->
 <div class="modal-overlay" id="paymentModal">

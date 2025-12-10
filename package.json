@@ -2,14 +2,15 @@
   "name": "epic-shutter-hub",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js",
+    "dev":"nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonJs",
   "dependencies": {
     "axios": "^1.13.2",
     "body-parser": "^2.2.1",

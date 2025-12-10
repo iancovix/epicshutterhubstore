@@ -40,7 +40,7 @@
     --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
   }
   * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif;}
-  body { background: var(--light-gray); color: var(--text-dark); }
+  body { background: var(--light-gray); color: var(--text-dark); margin: 0; padding: 0; }
 
   /* --- HEADER --- */
   .header {
@@ -80,28 +80,25 @@
 /* Full screen background */
 #access {
   position: fixed;
+  display: none;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background: rgba(0,0,0,3.9); /* semi-transparent overlay */
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 }
 
 /* Form container */
 #accessForm {
-  background: #fff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  width: 380px;
+  background: rgba(215, 211, 211, 0.823);
+  border-radius: 20px;
+  padding: 30px;
+  margin:200px auto;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Form elements */
@@ -139,23 +136,23 @@
   .container { display:flex; gap:20px; padding:20px; min-height: calc(100vh - 70px); }
 
   /* --- NAV PANEL --- */
-  .nav-panel { flex:0 0 220px; background:#fff; border-radius:12px; box-shadow:var(--shadow-sm); padding:20px; display:flex; flex-direction:column; gap:15px;}
-  .nav-panel ul { list-style:none; display:flex; flex-direction:column; gap:12px; }
-  .nav-panel li { padding:10px 15px; border-radius:8px; cursor:pointer; transition:0.2s; }
+  .nav-panel { flex:0 0 1; justify-content: space-between; background:#fff; border-radius:12px; box-shadow:var(--shadow-sm); padding:20px; display:flex; flex-direction:column; gap:15px;}
+  .nav-panel ul { list-style:none; display:flex; flex-direction:column; justify-content: space-between;
+     gap:12px; }
+  .nav-panel li { padding:10px 15px; border-radius:8px; cursor:pointer; justify-content: space-between; transition:0.2s; }
   .nav-panel li:hover { background:var(--accent); color:#fff; }
 
   /* --- MAIN PANEL --- */
   .main { flex:1; background:#fff; border-radius:12px; padding:25px; box-shadow:var(--shadow-md); display:flex; flex-direction:column; gap:30px;}
-
   /* --- FORM --- */
-  .admin-box { width:100%; max-width:500px; background:var(--light-gray); padding:20px; border-radius:12px; box-shadow:var(--shadow-sm); margin:auto; }
+  .admin-box { width:100%; max-width:500px; background:var(--light-gray); padding:20px; border-radius:12px; box-shadow:var(--shadow-sm); margin: 0 auto; }
   input, textarea, select { width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid var(--border-gray); font-size:0.95rem; }
   button { width:100%; padding:12px; background:var(--primary-dark); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:600; transition:0.2s; }
   button:hover { background:var(--accent); }
 
   /* --- IMAGE PREVIEW --- */
   .preview-container { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
-  .preview-container img { width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #ccc; }
+  .preview-container img { width:80px; height:80px; object-fit:cover; border-radius:8px; border:1px solid #ccc; margin-bottom: 10px;}
 
   /* --- TABLE --- */
   table { width:100%; border-collapse: collapse; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm); }
@@ -165,6 +162,15 @@
 
   /* --- RESPONSIVE --- */
   @media (max-width:992px){ .container{ flex-direction:column;} .nav-panel{flex-direction:row; overflow-x:auto; height:auto;} .nav-panel ul{flex-direction:row; gap:10px;} .main{width:100%;} }
+  
+@media screen and (max-width: 480px) {
+    .nav-panel { flex:0 0 100px; background:#fff; border-radius:12px;align-items: center;  box-shadow:var(--shadow-sm); padding: 10px; display:flex; flex-direction:column;justify-content: center; gap:5px;}
+  .nav-panel ul { list-style:none; display:flex; flex-direction: row;align-items: center; gap:5px;justify-content: center; }
+  .nav-panel li { padding:5px 5px; border-radius:8px; cursor:pointer; transition:0.2s; }
+  .nav-panel li:hover { background:var(--accent); color:#fff; }
+
+  
+}
 </style>
 </head>
 <body>
@@ -270,277 +276,128 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="productTable"></tbody>
+        <tbody id="productBody"></tbody>
       </table>
     </div>
   </div>
-</div><script type="module">
-  // IMPORTS
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { getDatabase, set,ref } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-  /*
-  import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-*/
-  // CONFIG
-  const firebaseConfig = {
-    apiKey: "AIzaSyB235hCAouus9JhFLpWJ64DiXVvNaGYNm0",
-    authDomain: "epicshutterhub-ee0d9.firebaseapp.com",
-    projectId: "epicshutterhub-ee0d9",
-    storageBucket: "epicshutterhub-ee0d9.firebasestorage.app",
-    messagingSenderId: "49117682378",
-    appId: "1:49117682378:web:7ebc026bb467eac04ab233",
-    measurementId: "G-WV4SM92954"
-  };
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getDatabase, ref, child, get, set, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-  // INIT
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+// ---------------- FIREBASE SETUP ----------------
+const firebaseConfig = {
+  apiKey: "AIzaSyA3cpEnOe_IyRhhPDKSsQuTZll-Ud38guE",
+  authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
+  databaseURL: "https://epicshutterhubstore-d41da-default-rtdb.firebaseio.com",
+  projectId: "epicshutterhubstore-d41da",
+  storageBucket: "epicshutterhubstore-d41da.firebasestorage.app",
+  messagingSenderId: "12540619912",
+  appId: "1:12540619912:web:6f31eab47fe31dd800433d"
+};
 
+const app = initializeApp(firebaseConfig);
+const db = getDatabase();
 
-  // TEST
-  console.log("Firebase Connected:", app);
+const productBody = document.getElementById("productBody");
+const status = document.getElementById("status");
+let editingKey = null;
 
+// ---------------- SAVE PRODUCT ----------------
+window.saveProduct = async function(){
+  const name = document.getElementById("pname").value.trim();
+  const price = document.getElementById("price").value;
+  const desc = document.getElementById("desc").value;
+  const cat = document.getElementById("category").value;
 
-// --- ADMIN NAV FUNCTIONS ---
-function showAddProduct(){
-  document.getElementById("addProductBox").style.display = "block";
-  document.getElementById("productListBox").style.display = "none";
-  document.getElementById("editModal").style.display = "none";
-}
+  if(!name || !price || !desc || !cat){
+    status.innerText = "Fill all fields.";
+    return;
+  }
 
-function showProductList(){
-  document.getElementById("addProductBox").style.display = "none";
-  document.getElementById("productListBox").style.display = "block";
-  document.getElementById("editModal").style.display = "none";
-}
+  status.innerText = "Saving product...";
+  const productKey = editingKey || name.replace(/\s+/g, "_");
 
-function editProduct(){  
-  document.getElementById("editModal").style.display = "flex";
-  document.getElementById("addProductBox").style.display = "none";
-  document.getElementById("productListBox").style.display = "none";
-}
-function closeEditModal(params) {
-  
-    document.getElementById("editModal").style.display = "none";  
-  document.getElementById("addProductBox").style.display = "block";
-  document.getElementById("productListBox").style.display = "none";
-}
-
-  // --- IMAGE PREVIEW ---
-  const imgInput = document.getElementById("imgFiles");
-  const preview = document.getElementById("preview");
-  imgInput.addEventListener("change", ()=>{
-    preview.innerHTML = "";
-    Array.from(imgInput.files).forEach(file=>{
-      if(!file.type.startsWith("image/")) return;
-      const reader = new FileReader();
-      reader.onload = (e)=>{
-        const img = document.createElement("img");
-        img.src = e.target.result;
-        preview.appendChild(img);
-      }
-      reader.readAsDataURL(file);
-    });
-  });
-
-  // --- SAVE PRODUCT ---
-  async function saveProduct(){
-    const name = document.getElementById("pname").value;
-    const price = document.getElementById("price").value;
-    const desc = document.getElementById("desc").value;
-    const cat = document.getElementById("category").value;
-    const files = document.getElementById("imgFiles").files;
-    const status = document.getElementById("status");
-
-    if(!name || !price || !desc || !cat || files.length===0){
-      status.innerText = "Fill all fields.";
-      return;
-    }
-
-    status.innerText = "Uploading Product...";
-    let imageUrls = [];
-    for(let file of files){
-      const ref = storage.ref("products/"+Date.now()+"-"+file.name);
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      imageUrls.push(url);
-    }
-
-    await db.collection("products").add({
-      name, price, description: desc, category: cat, images: imageUrls, createdAt: Date.now()
+  try {
+    await set(ref(db, 'products/' + productKey), {
+      name,
+      category: cat,
+      description: desc,
+      price: Number(price)
     });
 
     status.innerText = "Product Saved ✔";
-    imgInput.value = "";
-    preview.innerHTML = "";
-    document.getElementById("pname").value="";
-    document.getElementById("price").value="";
-    document.getElementById("desc").value="";
-    document.getElementById("category").selectedIndex=0;
-  }
 
-  // --- DISPLAY PRODUCTS ---
-  const productTable = document.getElementById("productTable");
-  db.collection("products").orderBy("createdAt","desc").onSnapshot(snapshot=>{
-    productTable.innerHTML = "";
-    snapshot.forEach(doc=>{
-      const p = doc.data();
-      let imgHTML = "";
-      p.images.forEach(url => imgHTML+=`<img src="${url}">`);
-      productTable.innerHTML+=`
-        <tr>
+    document.getElementById("pname").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("desc").value = "";
+    document.getElementById("category").selectedIndex = 0;
+    editingKey = null;
+
+    loadProducts();
+  } catch(err){
+    console.error(err);
+    status.innerText = "Error saving product!";
+  }
+};
+
+// ---------------- LOAD PRODUCTS ----------------
+function loadProducts(){
+  get(child(ref(db), 'products')).then(snapshot=>{
+    productBody.innerHTML = "";
+
+    if(snapshot.exists()){
+      snapshot.forEach(item=>{
+        const key = item.key;
+        const p = item.val();
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
           <td>${p.name}</td>
-          <td>${imgHTML}</td>
-          <td>$${p.price}</td>
           <td>${p.category}</td>
+          <td>$${p.price}</td>
+          <td>${p.description}</td>
           <td>
-            <button onclick="deleteProduct('${doc.id}', ${JSON.stringify(p.images).replace(/"/g,'&quot;')})">Delete</button>
+            <button onclick="editProduct('${key}')">Edit</button>
+            <button onclick="deleteProduct('${key}')">Delete</button>
           </td>
-        </tr>
-      `;
-    });
-  });
-
-  // --- DELETE PRODUCT ---
-  async function deleteProduct(id, images){
-    if(!confirm("Delete this product?")) return;
-    for(let url of images){
-      try{
-        const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
-        await storage.ref(path).delete();
-      }catch(e){console.log(e);}
+        `;
+        productBody.appendChild(tr);
+      });
+    } else {
+      productBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No products found</td></tr>`;
     }
-    await db.collection("products").doc(id).delete();
-    alert("Product deleted");
-  }
-
-  // --- SIGN OUT ---
-  const signOutBtn = document.getElementById("signOutBtn");
-  signOutBtn.addEventListener("click", ()=>{
-    auth.signOut().then(()=>{ alert("Signed out"); window.location.href="login.html"; })
-    .catch(err=>console.error(err));
   });
-
-
-  let editProductId = null;
-  let existingImages = [];
-
-  // Function to open edit modal (you already have this)
-  function updateProduct(id, data){
-    editProductId = id;
-    document.getElementById("editName").value = data.name;
-    document.getElementById("editPrice").value = data.price;
-    document.getElementById("editDesc").value = data.description;
-    document.getElementById("editCategory").value = data.category;
-
-    existingImages = data.images;
-    const editPreview = document.getElementById("editPreview");
-    editPreview.innerHTML = "";
-    data.images.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      editPreview.appendChild(img);
-    });
-
-    document.getElementById("editModal").style.display = "flex";
-    document.getElementById("addProductBox").style.display = "none";
-    document.getElementById("productListBox").style.display = "none";
-  }
-
-  // ✅ Save changes function
-  async function saveProductChanges() {
-    if (!editProductId) return alert("No product selected!");
-
-    const docRef = db.collection("products").doc(editProductId);
-
-    try {
-      const docSnap = await docRef.get();
-      if (!docSnap.exists) {
-        alert("This product does not exist anymore!");
-        return;
-      }
-
-      const updatedData = {
-        name: document.getElementById("editName").value,
-        price: Number(document.getElementById("editPrice").value),
-        description: document.getElementById("editDesc").value,
-        category: document.getElementById("editCategory").value,
-        images: existingImages
-      };
-
-      await docRef.update(updatedData);
-      alert("Product updated successfully ");
-      document.getElementById("editModal").style.display = "none";
-      loadProducts(); // function to reload the product list
-    } catch (error) {
-      console.error("Error updating product:", error);
-      alert("Failed to update product");
-    }
-  }
-</script>
-<!-- Add this in your HTML body -->
-<div id="popupMessage" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-  background:#222; color:#fff; padding:15px 25px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:9999;">
-  <span id="popupText"></span>
-  <button id="popupClose" style="margin-left:15px; background:none; border:none; color:#fff; font-weight:bold; cursor:pointer;">✖</button>
-</div>
-
-<script>
-function showPopup(message, duration = 3000) {
-  const popup = document.getElementById("popupMessage");
-  const text = document.getElementById("popupText");
-  const closeBtn = document.getElementById("popupClose");
-
-  text.innerText = message;
-  popup.style.display = "flex";
-  popup.style.alignItems = "center";
-
-  // Close button functionality
-  closeBtn.onclick = () => {
-    popup.style.display = "none";
-  };
-
-
-  setTimeout(() => {
-    popup.style.display = "none";
-  }, duration);
 }
 
-</script>
-<!--
-admin access pane -->
-<script>
-const form = document.getElementById("accessForm").addEventListener("submit", function(e) {
-  e.preventDefault(); // prevent form from submitting
-
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  // Specify your credentials
-  const validUsername = "admin";
-  const validPassword = "12345";
-
-  if(username === validUsername && password === validPassword){
-    // Credentials correct, hide the form
-
-    document.getElementById("access").style.display = "none";
-    showPopup("Access granted!");
-    username.value = "";
-    password.value= "";
-
-
-    form.reset(); // optional: show a popup
-  } else {
-    // Invalid credentials
-    window.history.back();
-    showPopup("Invalid username or password!");
+// ---------------- DELETE PRODUCT ----------------
+window.deleteProduct = async function(key){
+  if(!confirm("Delete this product?")) return;
+  try{
+    await remove(ref(db,'products/'+key));
+    alert("Deleted!");
+    loadProducts();
+  } catch(err){
+    console.error(err);
+    alert("Error deleting product");
   }
-});
+};
 
+// ---------------- EDIT PRODUCT ----------------
+window.editProduct = async function(key){
+  const snapshot = await get(ref(db,'products/'+key));
+  if(!snapshot.exists()) return alert("Product not found!");
+  const p = snapshot.val();
+  editingKey = key;
 
+  document.getElementById("pname").value = p.name;
+  document.getElementById("price").value = p.price;
+  document.getElementById("desc").value = p.description;
+  document.getElementById("category").value = p.category;
+};
 
+loadProducts();
 </script>
+
 </body>
 </html>

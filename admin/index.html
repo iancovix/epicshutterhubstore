@@ -207,7 +207,7 @@ window.saveProduct = async function(){
   const cat = document.getElementById("category").value;
   if(!name||!price||!desc||!cat){ showPopup("Fill all fields!"); return; }
 
-  const refKey = editingKey ? ref(db,"products/"+editingKey) : push(ref(db,"products"));
+  const refKey = editingKey ? ref(db,"products/"+editingKey) : push(ref(db,"products/"));
   await set(refKey,{name, price:Number(price), description:desc, category:cat});
   showPopup("Product saved!");
   document.getElementById("pname").value="";

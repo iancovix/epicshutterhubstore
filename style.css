@@ -385,7 +385,7 @@ body::-webkit-scrollbar {
     transition: all 0.3s ease;
     position: relative;
 }
-
+/*
 .nav-menu a::after {
     content: '';
     position: absolute;
@@ -396,15 +396,15 @@ body::-webkit-scrollbar {
     background: none;
     transition: width 0.3s ease;
 }
-
+*/
 .nav-menu a:hover {
     color: var(--navy);
 }
-
+/*
 .nav-menu a:hover::after {
     width: 90%;
 }
-
+*/
 /* ===== HERO SECTION ===== */
 .hero {
     background-image: url('./backgroundimg4.webp');
@@ -606,7 +606,6 @@ body::-webkit-scrollbar {
     font-family: "Inter",sans-serif;
     color: white;
     cursor: pointer;
-    white-space: nowrap;
     background: rgb(140, 12, 12);
     margin: 3px;
 }
@@ -617,7 +616,8 @@ body::-webkit-scrollbar {
     font-size: clamp(1.4rem,calc(2vw+ .3rem), 1.8rem);
 }
 
-    .category-btns .c-btn::hover{
+    .c-btn:hover{ 
+    color: black;
         background-color: #eed3d3dd;
         border: 1px solid rgba(196, 49, 49, 0.845);
     
@@ -1165,8 +1165,9 @@ header{
 .category-btns{
     scroll-snap-type: mandatory;
     width: 100%;
+    overflow-x: auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     gap: 5px;
     margin: 5px auto;
 }
@@ -1180,7 +1181,6 @@ header{
     color: white;
     cursor: pointer;
     min-width: 40%;
-    white-space: nowrap;
     background: rgb(140, 12, 12);
     margin: 3px;
 }
@@ -1232,7 +1232,7 @@ header{
     }
 
     .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 3px;
         width: 100%;
     }
@@ -1546,8 +1546,6 @@ body p{
     .nav-menu{
         
         display: flex;
-        position: absolute;
-        top: 80%;
    justify-self: center;
     width: 100%;
         flex-direction: row;
@@ -1573,7 +1571,7 @@ body p{
 }
 }
 @media screen and(min-width: 996px) and (max-width: 1440px) {
-
+/*
      .nav-menu{
         
         display: flex;
@@ -1582,7 +1580,7 @@ body p{
    justify-self: center;
    color: black;
         flex-direction: row;
-    }  
+    }  */
 }
 
 @media screen and(max-width: 480px) {
@@ -1774,6 +1772,9 @@ body p{
     .slides{
         transition: all 0.8s ease;
     }
+    .category-btns::-webkit-scrollbar{
+        display: none;
+    }
 @media  screen and (max-width: 480px) {
     
 .category-carousel{
@@ -1799,9 +1800,11 @@ body p{
     border-radius: 20px;
     font-weight: 400;
     border: none;
+    width: auto;
     font-family: "Inter",sans-serif;
     color: white;
     cursor: pointer;
+    width: 100%;
     min-width: 26%;
     white-space: nowrap;
     background: rgb(140, 12, 12);
@@ -1829,7 +1832,7 @@ body p{
     }
   .products-grid{
       display: grid;
-      grid-template-columns: repeat(2, 140px);
+      grid-template-columns: repeat(auto-fill,minmax(130px, 1fr));
   }  
 }
 .featured-products p{
@@ -1919,9 +1922,12 @@ body p{
     flex: 1 1 48%;
 }
     .nav-menu{
-        background: white;
+        background: transparent;
     }
      .nav-menu .dropdown .drop-content{
+        display: flex;
+        color: black;
+        flex-direction: column-reverse;
         min-width: 240px;
         text-align: start;
      }
@@ -1949,7 +1955,8 @@ body p{
         color: black;
     }
     .nav-menu .dropdown .drop-content {
-        text-align: start;
+        align-self: start;
+        color: black;
         padding: .8rem .8rem;
         margin: 0 20px;
 
@@ -1985,11 +1992,10 @@ del{
 */
 .nav-menu .dropdown .drop-content li a{
     padding: .5rem 1rem;
-    background: #fff;
-    color: #333;
+    color: #131010;
 }
 .nav-menu .dropdown .drop-content li a:hover{
-    color: grey;
+    color: rgb(197, 74, 74);
 }
 .nav-menu  .dropdown:hover .drop-content{
     text-align: start;
@@ -2159,6 +2165,7 @@ del{
 @media screen and (min-width: 481px){
     .category-item{
     flex: 1 1 48%;}
+
 .badge{
     display: none;
 }
@@ -2359,7 +2366,11 @@ for the losd more button at the cameras
   border-radius: 8px;
   cursor: pointer;
 }
+body::-webkit-scrollbar{
+    display: none;
+}
 body{
+    scrollbar-width: none;
     overflow-x: hidden;
 }
 .product-detail{
@@ -2375,4 +2386,15 @@ body{
 }
 .newsletter-form button:hover{
     background: var(--hover);
+}
+.nav-menu{
+    box-shadow: none;
+    border: none;
+}
+.search-container{
+    width: auto;
+    display: none;
+}
+.search-input{
+    display: none;
 }

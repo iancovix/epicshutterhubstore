@@ -330,9 +330,28 @@
                 <div class="logoword">
                     <h1>Epic Shutter Hub</h1>
                     <p>Capture Brilliance</p>
-
+                    
                 </div>
             </div>
+            
+                    <!-- NAVIGATION MENU -->
+                    <nav class="nav-menu"  id="navMenu">
+                        <ul>
+                            <li class="dropdown"><a href="">Shop</a>
+                            <ul class="drop-content">
+              <li><a href="">Cameras</a></li>
+              <li><a href="">Microphones</a></li>
+              <li><a href="">Tripods</a></li>
+                            </ul>
+                        </li>
+                            <li><a href=""></a>
+                            <ul>
+
+                            </ul></li>
+                            <li><a href=""></a></li>
+                            <li><a href=""></a></li>
+                        </ul>
+                    </nav>
             <div class="header-actions">
                 <div class="search-container">
                     <input type="search" id="searchInput" placeholder="Search products..." class="search-input">
@@ -352,56 +371,6 @@
               
           
         </div>
-
-        <!-- NAVIGATION MENU -->
-        <nav class="nav-menu" style="display: none" id="navMenu">
-            <ul>
-                <li class="dropdown"><a href="/cameras" class="nav-link">Cameras</a>
-                <ul class="drop-content">
-                    <li><a href="/cameras">DSLR</a>
-                    </li><li><a href="/cameras">Mirrorless</a></li> 
-                    </li><li><a href="/cameras">Video Cameras</a></li> 
-                        
-                </ul>
-            </li>
-                <li class="dropdown"><a href="/lenses" class="nav-link">Lenses</a>
-                             <ul class="drop-content">
-                    <li><a href="/lenses">canon</a>
-                    </li><li><a href="/lenses">Tamron</a></li>
-                        
-                </ul></li>
-                <li class="dropdown"><a href="/lighting" class="nav-link">Lighting</a>
-                             <ul class="drop-content">
-                    <li><a href="/lighting">Godox</a>
-                    </li><li><a href="/lighting">Aputure</a></li>
-                        
-                </ul></li>
-                <li class="dropdown"><a href="/audio" class="nav-link">Audio</a>
-                             <ul class="drop-content">
-                    <li><a href="/audio">Rode</a>
-                    </li><li><a href="/audio">Sennheiser</a></li>
-                        
-                </ul></li>
-                <li class="dropdown"><a href="/tripods-and-stabilizers" class="nav-link">Tripods & Stabilizers</a>
-                             <ul class="drop-content">
-                    <li><a href="/tripods-and-stabilizers">DSLR</a>
-                    </li><li><a href="/tripods-and-stabilizers">Mirrorless</a></li>
-                        
-                </ul></li>
-                <li class="dropdown"><a href="/accessories" class="nav-link">Accessories</a>
-                             <ul class="drop-content">
-                    <li><a href="/accessories">Batteries</a>
-                    </li><li><a href="/accessories">Lens Caps</a></li>
-                        
-                </ul></li>
-                <li class="dropdown"><a href="/used-cameras" class="nav-link">Used Cameras</a>
-                             <ul class="drop-content">
-                    <li><a href="/used cameras">Canon</a>
-                    </li><li><a href="/used cameras">Sony</a></li>
-                        
-                </ul></li>
-            </ul>
-        </nav>
     </header>
 
     <!-- HERO BANNER -->
@@ -421,7 +390,7 @@
         <p class="hero-text" style="text-align: center;">Everything You Need For Your Photography & Videography - premium cameras, lenses, lighting, audio,tripods and more</p>
 
         <button class="cta-btn" onclick="window.location.href='/cameras'">
-            <i class="bi bi-shop"></i> Shop Now
+            <i class="fas fa-shop"></i> Shop Now
             <i class="fas fa-arrow-right"></i>
         </button>
     </div>
@@ -436,7 +405,7 @@
             <button onclick="getCategory('audio')" class="c-btn">Audio</button>
             <button onclick="getCategory('Lighting')" class="c-btn">Lighting</button>
             <button onclick="getCategory('accessories')" class="c-btn">Accessories</button>
-            <button onclick="getCategory('tripods')" class="c-btn">Tripods &amp; Stabilizers</button>
+            <button onclick="getCategory('tripods')" class="c-btn">Tripods</button>
         </div>
         <div id="category-products" class="category-products">
 
@@ -1304,14 +1273,15 @@ Removable Front & Inner Diffuser</p>
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 window.getCategory = function(categoryInput){
+    const categoryGrid= document.querySelector(".category-products");
 
-const sRef = ref(db, `products/${categoryInput}`);
+const sRef = ref(db, "products");
 get(sRef).then((snapshot)=>{
     if (snapshot.exists()) {
         const products = snapshot.val();
         Object.keys(products).forEach(id=>{
             const item = products[id];
-            const categoryGrid= document.getElementById("category-products");
+            categoryGrid.innerHTML='';
             const card = document.createElement('div');
         card.className= 'product-card ';
         card.dataset.name= item.name;
@@ -1324,12 +1294,14 @@ get(sRef).then((snapshot)=>{
                     <span class="product-category">${item.category}</span>
                     <h3 class="product-name">${item.name}</h3>
                     <p class="product-description">${item.description}</p>
-                    <div class="product-price">${item.price}</div>
+                    <div class="product-price">$ ${item.price}</div>
                     <button class="add-to-cart" data-product="${item.name}" data-price="${item.price}">Add to Cart</button>
                 </div>`;
-                categoryGrid.innerHTML += card;
+                categoryGrid.appendChild(card);
         })
         
+    }else{
+        categoryGrid.innerHTML =`<p>No Products in DataBase</p>`
     }
 }).catch((error)=>{
     alert(error)

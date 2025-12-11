@@ -726,12 +726,12 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'MTN Mobile Money':
                 msg.textContent = 'You will receive a payment prompt on your MTN number';
                 msg.style.background = 'yellow';
-                msg.style.color = '#ef6c00';
+                msg.style.color = 'black';
                 break;
             case 'Airtel Money':
                 msg.textContent = 'You will receive a payment prompt on your Airtel number';
-                msg.style.background = '#ffebee';
-                msg.style.color = '#c62828';
+                msg.style.background = 'red';
+                msg.style.color = 'white';
                 break;
             case 'Cash on Delivery':
                 msg.textContent = 'Pay with cash when your order is delivered';
@@ -749,6 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // payment fetch pesapal
 async function confirmOrder(){
+    window.location.href= `/payment-success?order=${phone}&amount=${amount}`;
     try{
     const req =await fetch('/submit-order',{
         method:"POST",
@@ -757,13 +758,13 @@ async function confirmOrder(){
             name: name,
             email: email,
             amount: amount,
-            description : `Payment for ${products}`,
-            phone: `${phone}`
+            description : `Payment ${products}`,
+            phone: phone
         })
     });
     const {paymentUrl}= await req.json();
     if (payment) {
-        window.ocation.href=paymentUrl
+        window.location.href=paymentUrl
         
     }else{
         alert('Payment INITIATION failed')

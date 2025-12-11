@@ -24,6 +24,12 @@
 <style>
   .product-detail { max-width: 600px; margin: 100px auto; text-align: center; }
   .product-detail img { width: 100%; max-width: 400px; }
+  @media (max-width: 480px){
+    .product-detail{
+      display: flex;
+      flex-direction: column;
+    }
+  }
 </style>
 </head>
 <body>
@@ -129,7 +135,7 @@ const productData = [
     description: "The Canon EOS R5 is a full-frame mirrorless camera with 45MP resolution, 8K video recording, and advanced autofocus."
   },
   {
-    name: "Canon EOS R6",
+    name: "Canon EOS R6 Mark II",
     img: "canoneos6mark2.webp",
     description: "Canon EOS R6 features a 20MP full-frame sensor, 4K video, in-body image stabilization, and high-speed continuous shooting."
   },

@@ -407,8 +407,9 @@
             <button onclick="getCategory('accessories')" class="c-btn">Accessories</button>
             <button onclick="getCategory('tripods')" class="c-btn">Tripods</button>
         </div>
-        <div id="category-products" class="category-products">
+        <div class="product-fetch">
 
+            <div id="category-products" class="category-products"></div>
         </div>
 
     </div>
@@ -1121,9 +1122,9 @@ Removable Front & Inner Diffuser</p>
 </div>
 
 <!-- Map -->
-<div class="footer-map" style="flex:1; min-width:200px; height:200px;">
+<div class="footer-map" style="flex:1; min-width: 80%; margin-bottom: 10px; height:200px;">
   <h3 style="margin-bottom:15px;">Our Location</h3>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7581403774325!2d32.57240956744169!3d0.3146933633554475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb73969a744d%3A0x6eb4434bbf8ab42d!2sEPIC%20SHUTTER%20HUB!5e0!3m2!1sen!2sug!4v1763666877117!5m2!1sen!2sug" width="100%" height="100%" style="border:0; margin-right: 5px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7581403774325!2d32.57240956744169!3d0.3146933633554475!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb73969a744d%3A0x6eb4434bbf8ab42d!2sEPIC%20SHUTTER%20HUB!5e0!3m2!1sen!2sug!4v1763666877117!5m2!1sen!2sug" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 
   </div>  <!-- Payment Icons / Social (Optional) -->  <div class="footer-middle" style="display:flex; justify-content:space-between; align-items:center; margin:40px auto; flex-wrap:wrap; flex-direction: column;">
@@ -1260,7 +1261,7 @@ Removable Front & Inner Diffuser</p>
 
   
   import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
-  import {getDatabase, ref,get} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js';
+  import {getDatabase, ref,get,child} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js';
   const firebaseConfig = {
   apiKey: "AIzaSyA3cpEnOe_IyRhhPDKSsQuTZll-Ud38guE",
   authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
@@ -1272,43 +1273,57 @@ Removable Front & Inner Diffuser</p>
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-window.getCategory = function(categoryInput){
-    const categoryGrid= document.querySelector(".category-products");
+window.getCategory = function(categoryInput) {
+    const categoryGrid = document.querySelector(".category-products");
+    const category = categoryInput.toLowerCase();
+    const sRef = ref(db, `products/${category}`);
 
-const sRef = ref(db, "products");
-get(sRef).then((snapshot)=>{
-    if (snapshot.exists()) {
-        const products = snapshot.val();
-        Object.keys(products).forEach(id=>{
-            const item = products[id];
-            categoryGrid.innerHTML='';
-            const card = document.createElement('div');
-        card.className= 'product-card ';
-        card.dataset.name= item.name;
-        card.innerHTML = `
+    get(sRef)
+    .then((snapshot) => {
+        if (snapshot.exists()) {
+            const products = snapshot.val();
+            categoryGrid.innerHTML = '';
 
-                <div class="product-image">
-                    <img  width="100%" height="100%" src="${item.image || 'placeholder.jpg'}" loading="lazy" alt="${item.name}">
-                </div>
-                <div class="product-info">
-                    <span class="product-category">${item.category}</span>
-                    <h3 class="product-name">${item.name}</h3>
-                    <p class="product-description">${item.description}</p>
-                    <div class="product-price">$ ${item.price}</div>
-                    <button class="add-to-cart" data-product="${item.name}" data-price="${item.price}">Add to Cart</button>
-                </div>`;
+            // Convert object to array
+            const productsArray = Object.keys(products).map(id => ({
+                id,
+                ...products[id]   // <-- fixed this line
+            }));
+
+            // Sort newest first
+            productsArray.sort((a, b) => b.createdAt - a.createdAt);
+
+            // Create product cards
+            productsArray.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.dataset.name = item.name;
+
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img width="100%" height="100%" src="${item.image || 'R.webp'}" loading="lazy" alt="${item.name}">
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${item.category}</span>
+                        <h3 class="product-name">${item.name}</h3>
+                        <p class="product-description">${item.description}</p>
+                        <div class="product-price">$ ${item.price}</div>
+                        <button class="add-to-cart" data-product="${item.name}" data-price="${item.price}">Add to Cart</button>
+                    </div>
+                `;
+
                 categoryGrid.appendChild(card);
-        })
-        
-    }else{
-        categoryGrid.innerHTML =`<p>No Products in DataBase</p>`
-    }
-}).catch((error)=>{
-    alert(error)
-})
+            });
 
+        } else {
+            categoryGrid.innerHTML = `<p>No Products in DataBase</p>`;
+        }
+    })
+    .catch((error) => {
+        alert(error);
+    });
+};
 
-}
 
 </script>
 

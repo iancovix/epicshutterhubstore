@@ -23,7 +23,7 @@
 
   /* ----------------- LOGIN ----------------- */
   #loginBox {
-    width:100%; height:100%; display:flex; justify-content:center; align-items:center; position:fixed; top:0; left:0; z-index:1000;
+    width:100%; height:100%; display: flex; justify-content:center; align-items:center; position:fixed; top:0; left:0; z-index:1000;
     background: rgba(0,0,0,0.6);
   }
   #loginForm {
@@ -35,7 +35,7 @@
   #loginForm button:hover { background:rgb(177, 72, 72); }
 
   /* ----------------- DASHBOARD ----------------- */
-  .dashboard { display:flex; min-height:100vh; padding-top:60px; }
+  .dashboard { display: flex; min-height:100vh; padding-top:60px; }
 
   /* Sidebar */
   .sidebar {
@@ -119,7 +119,6 @@
       </select>
       <button onclick="saveProduct()">Save Product</button>
     </div>
-
     <!-- PRODUCT TABLE -->
     <div class="glass-card" id="listBox" style="display:none;">
       <h2>Products</h2>
@@ -141,7 +140,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { getDatabase, ref, set, push, get, child, remove } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-import { getStorage, ref as sRef, set, getDownloadURL, uploadBytes} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+import { getStorage, ref as sRef,  getDownloadURL, uploadBytes} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
 /* Firebase config */
 const firebaseConfig = {
@@ -179,6 +178,7 @@ document.getElementById("loginForm").addEventListener("submit", e=>{
   } else alert("Invalid login");
 });
 
+
 /* Popup */
 function showPopup(msg){
   const box = document.getElementById("successPopup");
@@ -206,32 +206,34 @@ window.saveProduct = async function(){
   const name = document.getElementById("pname").value.trim().toLowerCase();
   const price = document.getElementById("price").value;
   const desc = document.getElementById("desc").value;
-  const cat = document.getElementById("category").value;
-  const image = document.getElementById("files").files[0];
-  if(!name||!price||!desc||!cat || !image){ showPopup("Fill all fields!"); return; }
-try{
+  const cat = document.getElementById("category").value;/*
+  const image = document.getElementById("files").files[0];*/
+  if(!name||!price||!desc||!cat){ showPopup("Fill all fields!"); return; }
+try{/*
   const storageR = sRef(storage,`products/${Date.now()}_${image.name}`);
   await uploadBytes(storageR,image);
   const url = await getDownloadURL(storageR);
-  const refKey =  ref(db,`products/${cat}`);
+  */
+  const refKey =  ref(db,`products`);
   const dataSave=  push(refKey);
   await set(dataSave,
-  {name,
+  {  name ,
      price:Number(price),
-      description:desc, 
-      category:cat,
-      image: url,
+      description: desc, 
+      category: cat,
        createdAt: Date.now()
       });
   showPopup("Product saved!");
   document.getElementById("pname").value="";
   document.getElementById("price").value="";
-  document.getElementById("desc").value="";
+  document.getElementById("desc").value="";/*
+  document.getElementById("files").value="";*/
   document.getElementById("category").value="";
   editingKey = null;
   showList();
 }
-  catch{
+  catch (error){
+    alert(error)
     console.log(error)
   }
 }
@@ -246,13 +248,12 @@ function loadProducts(){
       const key=item.key;
       productBody.innerHTML+=`
       <tr>
-        <td>${p.image}</td>
         <td>${p.name}</td>
         <td>$${p.price}</td>
         <td>${p.category}</td>
         <td>
-          <button onclick="editProduct('${key}')">Edit</button>
-          <button onclick="deleteProduct('${key}')">Delete</button>
+          <button style="margin-bottom: 5px;"onclick="editProduct('${key}')">Edit</button>
+          <button  style="margin-bottom: 5px;" onclick="deleteProduct('${key}')">Delete</button>
         </td>
       </tr>`;
     });

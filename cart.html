@@ -590,9 +590,10 @@
             cart = [];
             saveCartToStorage();
             
-            setTimeout(() => {
+           /* setTimeout(() => {
                 navigateToHome();
             }, 40000);
+            */
             const paymentBox = document.querySelector('.modal-overlay').style.display='flex';
         }
 
@@ -785,9 +786,12 @@ async function payOut(){
             })
         });
         const data = await req.json();
-    
+    /*
             window.location.href= data.link;
+            */
             window.location.href= `/payment-success?order=${phone}&amount=${amount}`;
+            
+            showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`)
 } catch(error){
     console.log(error)
     alert('Payment Error Occured');

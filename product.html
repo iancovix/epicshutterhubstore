@@ -163,21 +163,24 @@ const productData = [
 // Get URL parameter
 const params = new URLSearchParams(window.location.search);
 const productName = params.get('name');
+const productDesc = params.get('desc');
 
-// Find product data
-const product = productData.find(p => p.name === productName);
+/* Find product data
+const product = productData.find(p => p.name === decodeURIComponent(productName));
 
 if (product) {
-  document.getElementById('product-name').innerText = product.name;
-  const description = document.createElement('li').innerText = product.description;
+*/
+  document.getElementById('product-name').innerText = productName;
+  const description = document.createElement('li').innerText = product.Desc;
   document.getElementById('product-description').append(description);
   document.getElementById('product-img').src = product.img;
   document.getElementById('product-img').alt = product.name;
+  /*
 } else {
   document.getElementById('product-name').innerText = "Product not found";
   document.getElementById('product-description').innerText = "";
   document.getElementById('product-img').style.display = "none";
-}
+}*/
 console.log(window.location.search)
 </script>
 <script src="server.js"></script>

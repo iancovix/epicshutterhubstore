@@ -815,8 +815,12 @@ function showSlides() {
 let allProducts = document.querySelectorAll('.product-name');
 allProducts.forEach(product => {
   product.addEventListener('click', () => {
-    const name = encodeURIComponent(product.dataset.name); // encode for URL
-    window.location.href = `product.html?name=${name}`;
+
+      const nameProd = product.textContent;
+      const name = encodeURIComponent(nameProd); // encode for URL
+    const description = document.querySelector('.product-description').textContent;
+    const desc = encodeURIComponent(description); // encode for URL
+    window.location.href = `product.html?name=${name}&desc=${description}`;
   });
 });
 document.querySelectorAll('.nav-link a').forEach((link)=>{

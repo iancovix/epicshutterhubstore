@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Receipt — Epic Shutter Hub</title>
+
+<!-- jsPDF & html2canvas CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+  :root{
+    --brand:#1a2f5a;
+    --accent:#00aa00;
+    --muted:#6b7280;
+    --paper:#ffffff;
+    --shadow: 0 6px 20px rgba(26,47,90,0.08);
+    --radius:12px;
+    --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body{
+    font-family:var(--font);
+    background:#f3f6fb;
+    padding:24px;
+    -webkit-font-smoothing:antialiased;
+    color:#111827;
+  }
+
+  .receipt-shell{
+    max-width:900px;
+    margin:12px auto;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  .receipt-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:22px;
+    background:linear-gradient(90deg,var(--brand),#13304f);
+    color:white;
+  }
+  .brand-left{display:flex;gap:12px;align-items:center}
+  .brand-left img{height:48px;border-radius:8px;background:white;padding:4px}
+  .brand-left h2{font-size:1.25rem;margin:0}
+  .receipt-meta{font-size:0.95rem;text-align:right}
+  .receipt-meta div{opacity:0.95}
+
+  .receipt-body{padding:22px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+  @media(max-width:820px){ .receipt-body{grid-template-columns:1fr} }
+
+  /* Left column (items) */
+  .items{
+    background:#fbfdff;padding:18px;border-radius:10px;border:1px solid #eef2f7;
+  }
+  .items table{width:100%;border-collapse:collapse}
+  .items thead th{font-weight:700;padding:10px 8px;border-bottom:1px solid #edf2f7;text-align:left;color:var(--muted)}
+  .items tbody td{padding:12px 8px;border-bottom:1px dashed #eef2f7}
+  .item-name{font-weight:600}
+  .mono{font-family:system-ui,monospace;color:#334155}
+
+  /* Right column (summary) */
+  .summary{
+    background:white;padding:18px;border-radius:10px;border:1px solid #eef2f7;
+    height:fit-content;
+  }
+  .summary h4{margin:0 0 12px 0;color:var(--brand)}
+  .summary-row{display:flex;justify-content:space-between;padding:8px 0;color:var(--muted)}
+  .summary-row.total{font-weight:800;color:#0f172a;font-size:1.05rem;border-top:1px solid #eef2f7;padding-top:12px;margin-top:12px}
+
+  .footer{
+    display:flex;justify-content:space-between;align-items:center;padding:18px;border-top:1px solid #f0f3f8;background:#fbfdff;
+    gap:12px;flex-wrap:wrap;
+  }
+  .btns{display:flex;gap:10px}
+  button.btn{
+    border:0;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;
+    box-shadow:0 6px 18px rgba(20,40,80,0.06);
+  }
+  .btn.primary{background:var(--brand);color:white}
+  .btn.ghost{background:white;color:var(--brand);border:1px solid rgba(26,47,90,0.08)}
+  .small{font-size:0.88rem;color:var(--muted)}
+  .receipt-id{background:#eef2f7;padding:6px 10px;border-radius:8px;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="receipt-shell" id="receiptRoot">
+
+  <header class="receipt-header">
+    <div class="brand-left">
+      <img id="brandLogo" src="https://epicshutterhub.vercel.app/logoimg.webp" alt="logo">
+      <div>
+        <h2 id="brandName">Epic Shutter Hub</h2>
+        <div class="small" id="brandAddr">Kampala, Uganda • +256 700 000000 • hello@epicshutterhub.com</div>
+      </div>
+    </div>
+
+    <div class="receipt-meta">
+      <div>Receipt #: <span class="receipt-id" id="receiptNo">ES-000123</span></div>
+      <div id="receiptDate">Date: 2025-12-11 12:00</div>
+      <div id="paidVia" class="small">Paid via: Flutterwave</div>
+    </div>
+  </header>
+
+  <section class="receipt-body">
+    <div class="items">
+      <table>
+        <thead>
+          <tr><th>Item</th><th>Qty</th><th>Price</th><th style="text-align:right">Total</th></tr>
+        </thead>
+        <tbody id="itemsTbody">
+          <!-- JS will inject rows -->
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="summary">
+      <h4>Order Summary</h4>
+      <div class="summary-row"><div class="small">Subtotal</div><div id="subVal" class="mono">UGX 0</div></div>
+      <div class="summary-row"><div class="small">Shipping</div><div id="shipVal" class="mono">UGX 0</div></div>
+      <div class="summary-row"><div class="small">Tax</div><div id="taxVal" class="mono">UGX 0</div></div>
+      <div class="summary-row total"><div>Total</div><div id="totalVal">UGX 0</div></div>
+
+      <div style="margin-top:14px" class="small">Customer</div>
+      <div style="font-weight:700;margin-top:6px" id="custName">John Doe</div>
+      <div class="small" id="custPhone">+256 700 000000 • john@example.com</div>
+
+      <hr style="margin:14px 0;border:none;border-top:1px solid #f1f5f9">
+
+      <div class="small">Order Notes</div>
+      <div id="orderNotes" style="margin-top:8px;color:var(--muted)">Delivered within 2–3 business days.</div>
+    </aside>
+  </section>
+
+  <div class="footer">
+    <div class="small">Thank you for your purchase! Contact support at hello@epicshutterhub.com</div>
+    <div class="btns">
+      <button class="btn ghost" id="printBtn">Print</button>
+      <button class="btn primary" id="downloadPdfBtn">Download PDF</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- Sample order data (replace with real data from your app) ----------
+  const sampleOrder = {
+    receiptNo: "ES-" + Date.now().toString().slice(-6),
+    dateISO: new Date().toISOString(),
+    paidVia: "Flutterwave",
+    customer: {
+      name: "Akala Ian Covix",
+      phone: "+256700000000",
+      email: "akala@example.com"
+    },
+    items: [
+      { name: "Canon EOS R6", unitPrice: 4200000, qty: 1 },
+      { name: "50mm Lens", unitPrice: 950000, qty: 1 },
+      { name: "Camera Bag", unitPrice: 75000, qty: 2 },
+    ],
+    shipping: 15000,
+    taxPercent: 0 // set tax percent (e.g., 18)
+  };
+
+  // ---------- Utilities ----------
+  const currencyFormat = (n) => {
+    // UGX doesn't use decimals usually
+    return "UGX " + Number(n).toLocaleString("en-UG");
+  };
+
+  function populateReceipt(order) {
+    document.getElementById("receiptNo").textContent = order.receiptNo;
+    document.getElementById("receiptDate").textContent = "Date: " + new Date(order.dateISO).toLocaleString();
+    document.getElementById("paidVia").textContent = "Paid via: " + order.paidVia;
+
+    // Customer
+    document.getElementById("custName").textContent = order.customer.name;
+    document.getElementById("custPhone").textContent = order.customer.phone + " • " + order.customer.email;
+
+    // Items
+    const tbody = document.getElementById("itemsTbody");
+    tbody.innerHTML = "";
+    let subtotal = 0;
+    order.items.forEach((it, i) => {
+      const row = document.createElement("tr");
+      const lineTotal = it.unitPrice * it.qty;
+      subtotal += lineTotal;
+      row.innerHTML = `
+        <td class="item-name">${it.name}</td>
+        <td>${it.qty}</td>
+        <td class="mono">${currencyFormat(it.unitPrice)}</td>
+        <td class="mono" style="text-align:right">${currencyFormat(lineTotal)}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    const tax = Math.round((order.taxPercent/100) * subtotal);
+    const total = subtotal + (order.shipping || 0) + tax;
+
+    document.getElementById("subVal").textContent = currencyFormat(subtotal);
+    document.getElementById("shipVal").textContent = currencyFormat(order.shipping || 0);
+    document.getElementById("taxVal").textContent = currencyFormat(tax);
+    document.getElementById("totalVal").textContent = currencyFormat(total);
+
+    document.getElementById("orderNotes").textContent = order.notes || "Thank you for supporting local business.";
+  }
+
+  populateReceipt(sampleOrder);
+
+  // ---------- Print ----------
+  document.getElementById("printBtn").addEventListener("click", () => {
+    window.print();
+  });
+
+  // ---------- Download PDF (html2canvas + jsPDF) ----------
+  document.getElementById("downloadPdfBtn").addEventListener("click", async () => {
+    const root = document.getElementById("receiptRoot");
+    // Use html2canvas to rasterize the element at a high scale
+    const canvas = await html2canvas(root, { scale: 2, useCORS: true, backgroundColor: null });
+    const imgData = canvas.toDataURL("image/png");
+
+    // jsPDF
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: "portrait",
+      unit: "pt",
+      format: "a4"
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Calculate image size to fit width while preserving aspect ratio
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgWidth = pageWidth - 40; // margins
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+    pdf.addImage(imgData, "PNG", 20, 20, imgWidth, imgHeight);
+    const fname = `receipt-${document.getElementById("receiptNo").textContent}.pdf`;
+    pdf.save(fname);
+  });
+
+  // ---------- Helper: call this when order completes ----------
+  // Example: call generateReceiptPDF(order) after payment verification
+  async function generateReceiptPDF(order) {
+    populateReceipt(order);
+    // small delay to render
+    await new Promise(r => setTimeout(r, 300));
+    document.getElementById("downloadPdfBtn").click();
+  }
+
+  // Example usage: generate PDF after successful payment
+  // generateReceiptPDF(sampleOrder);
+</script>
+</body>
+</html>

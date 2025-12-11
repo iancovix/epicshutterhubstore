@@ -453,6 +453,29 @@
                 <button class="back-shopping-btn" onclick="navigateToHome()">Continue Shopping</button>
             </div>
         </div>
+    </script>
+        <!-- PAYMENT POPUP MODAL -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-box">
+            <h3>Payment Details</h3>
+            
+            <input type="text" id="custName" placeholder="Full Name">
+            <input type="number" id="custPhone" placeholder="Phone Number">
+            <input type="text" id="custLocation" placeholder="Delivery Location">
+            
+            <select id="custPayment">
+                <option value="">Select Payment Method</option>
+                <option value="MasterCard">MasterCard</option>
+                <option value="Visa">Visa</option>
+                <option value="MTN Mobile Money">MTN Mobile Money</option>
+                <option value="Airtel Money">Airtel Money</option>
+                <option value="Cash on    Delivery">Cash on Delivery</option>
+            </select>
+            
+            <button class="modal-btn pay-btn" onclick="payOut()">Confirm Order</button>
+            <button class="modal-btn close-btn" onclick="closePaymentModal()">Cancel</button>
+        </div>
+    </div>
     </div>
 
     <script>
@@ -747,28 +770,24 @@ document.addEventListener('DOMContentLoaded', function () {
         paymentSelect.parentNode.appendChild(msg);
     });
 });
-// payment fetch pesapal
-async function confirmOrder(){
-    window.location.href= `/payment-success?order=${phone}&amount=${amount}`;
+// payment fetch fLutterwave
+async function payOut(){
     try{
-    const req =await fetch('/submit-order',{
-        method:"POST",
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            name: name,
-            email: email,
-            amount: amount,
-            description : `Payment ${products}`,
-            phone: phone
-        })
-    });
-    const {paymentUrl}= await req.json();
-    if (payment) {
-        window.location.href=paymentUrl
-        
-    }else{
-        alert('Payment INITIATION failed')
-    }
+        const req =await fetch('https://epicshutterhub.onrender.com/submit-order',{
+            method:"POST",
+            headers:{'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                amount: amount,
+                description : `Payment ${products}`,
+                phone: phone
+            })
+        });
+        const data = await req.json();
+    
+            window.location.href= data.link;
+            window.location.href= `/payment-success?order=${phone}&amount=${amount}`;
 } catch(error){
     console.log(error)
     alert('Payment Error Occured');
@@ -797,27 +816,5 @@ window.addEventListener('load',()=>{
 })
 }
 </script>
-    <!-- PAYMENT POPUP MODAL -->
-<div class="modal-overlay" id="paymentModal">
-    <div class="modal-box">
-        <h3>Payment Details</h3>
-        
-        <input type="text" id="custName" placeholder="Full Name">
-        <input type="number" id="custPhone" placeholder="Phone Number">
-        <input type="text" id="custLocation" placeholder="Delivery Location">
-        
-        <select id="custPayment">
-            <option value="">Select Payment Method</option>
-            <option value="MasterCard">MasterCard</option>
-            <option value="Visa">Visa</option>
-            <option value="MTN Mobile Money">MTN Mobile Money</option>
-            <option value="Airtel Money">Airtel Money</option>
-            <option value="Cash on    Delivery">Cash on Delivery</option>
-        </select>
-        
-        <button class="modal-btn pay-btn" onclick="confirmOrder()">Confirm Order</button>
-        <button class="modal-btn close-btn" onclick="closePaymentModal()">Cancel</button>
-    </div>
-</div>
 </body>
 </html>

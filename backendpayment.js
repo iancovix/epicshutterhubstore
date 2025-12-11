@@ -1,61 +1,63 @@
-const express = require('express');
-require('dotenv').config();
-const Pesapal = require('pesapaljs-v3');
-const cors = require('cors');
-
+require("dotenv").config();
+const express = require("express");
+const Flutterwave = require("flutterwave-node-v3");
+const cors = require("cors");
 const app = express();
+
 app.use(express.json());
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
 
-const pesa = Pesapal.init({
-    key: process.env.PESAPAL_CONSUMER_KEY,
-    secret: process.env.PESAPAL_CONSUMER_SECRET,
-    debug: true
-});
+// Initialize Flutterwave
+const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
-app.post('/submit-order', async (req, res) => {
-    const { email, amount, phone, description, currency = "UGX" } = req.body;
-    const orderReference = `ORDER_${Date.now()}`;
+// Create payment
+app.post("/submit-order", async (req, res) => {
+  try {
+    const { amount, email, phone, name, currency } = req.body;
 
-    try {
-        const paymentUrl = await new Promise((resolve, reject) => {
-            pesa.submitOrder({
-                id: orderReference,
-                currency: currency, // fixed
-                amount: amount,
-                description: description,
-                callback_url: 'https://epicshutterhub.vercel/payment-success',
-                notification_id: process.env.PESAPAL_IPN_ID,
-                billing_address: { email: email, phone_number: phone }
-            }, (err, url) => {
-                if (err) reject(err);
-                else resolve(url);
-            });
-        });
+    const payload = {
+      tx_ref: "EPIC-" + Date.now(),
+      amount: amount,
+      currency: currency || "UGX",
+      redirect_url: "https://epicshutterhub.vercel.app/payment-success",
 
-        res.json({ paymentUrl });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+      customer: {
+        email: email,
+        phonenumber: phone,
+        name: name,
+      },
 
-// IPN listener
-app.post('/ipn', (req, res) => {
-    console.log('IPN RECEIVED', req.body);
-    res.status(200).send('Ok');
-});
+      customizations: {
+        title: "Epic Shutter Hub",
+        description: "Purchase of product(s)",
+      },
+    };
 
-// Payment status
-app.get('/payment-status/:reference', async (req, res) => {
-    const { reference } = req.params;
+    const response = await flw.Payment.initialize(payload);
 
-    pesa.getPaymentStatus({ id: reference }, (err, status) => { // fixed 'sttatus' typo
-        if (err) return res.status(500).json({ error: err });
-        res.json({ status });
+    return res.json({
+      link: response.data.link, // Redirect user here
     });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Payment init failed" });
+  }
 });
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+// Verify payment
+app.get("/verify", async (req, res) => {
+  try {
+    const txId = req.query.transaction_id;
+
+    const response = await flw.Transaction.verify({ id: txId });
+
+    res.json(response);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Verification failed" });
+  }
 });
+
+app.listen(3000, () => console.log("Flutterwave server running on port 3000"));

@@ -353,7 +353,7 @@ body::-webkit-scrollbar {
 }
 
 .nav-menu {
-    display: flex;
+    display: none;
     justify-content: center;
     background: var(--light-gray);
     padding: 16px 0;
@@ -1989,6 +1989,9 @@ del{
 /*
     box-shadow: 0 3px 6px rgb(0,0,0,0.2);
 */
+.nav-menu{
+    display: none;
+}
 .nav-menu .dropdown .drop-content li a{
     padding: .5rem 1rem;
     color: #131010;

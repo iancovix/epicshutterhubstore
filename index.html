@@ -3,7 +3,7 @@
 <head>
     <!-- Primary favicon -->
 <link rel="icon" type="image/webp" sizes="32x32" href="https://epicshutterhub.vercel.app/logoimg.webp">
-<link rel="icon" type="image/png" sizes="16x16" href="https://epicshutterhub.vercel.app/logoimg.png">
+<link rel="icon" type="image/webp" sizes="16x16" href="https://epicshutterhub.vercel.app/logoimg.webp">
 <link rel="shortcut icon" href="https://epicshutterhub.vercel.app/logoimg.webp">
 
 <!-- Apple Touch Icons -->
@@ -1276,7 +1276,7 @@ const db = getDatabase(app);
 window.getCategory = function(categoryInput) {
     const categoryGrid = document.querySelector(".category-products");
     const category = categoryInput.toLowerCase();
-    const sRef = ref(db, `products/${category}`);
+    const sRef = ref(db, `products/`);
 
     get(sRef)
     .then((snapshot) => {

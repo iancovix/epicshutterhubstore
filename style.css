@@ -1302,7 +1302,7 @@ header{
         margin: 0;
     }
     .logoword p{
-        text-align: center; 
+        text-align: start; 
     }
     .header{
         justify-content: center;
@@ -1393,7 +1393,7 @@ header .logoword{
 }
 
 .logo p{
-    transform: translateX(30px)
+    transform: translateX(-30px)
 }
 .footer{
     background: black;}
@@ -1415,7 +1415,7 @@ header{
 }*/
 @media screen and(max-width: 480px) {
     .logoword p{
-        text-align: center;
+        text-align: start;
     }
 
 }
@@ -2069,7 +2069,7 @@ del{
     padding: 20px;
 }
   .logo p{
-    text-align: center;
+    text-align: start;
 }/*
 transform: translateX(-.5%);*/
   .logo{

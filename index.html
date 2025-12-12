@@ -1114,13 +1114,16 @@ Removable Front & Inner Diffuser</p>
                 <a href="/lenses" style="color:#fff; text-decoration:none;">Lenses</a>
             </nav>
         </div>
+        <div class="footer-links" style="flex:1; min-width:200px;">
     <nav class="footer-links" style="flex:1; min-width:200px;">
         <h3 style="margin-bottom:15px;">Our Policies</h3>
 
+            <nav class="footer-nav" style="display:flex; flex-direction:column; gap:8px;"  >
     <a href="/shipping-info" style="color:#fff; text-decoration:none;">Shipping Info</a>
     <a href="/privacy-policy" style="color:#fff; text-decoration:none;">Privacy Policy</a>
     <a href="/return" style="color:#fff; text-decoration:none;">Return Policy</a>
     <a href="/terms-and-conditions" style="color:#fff; text-decoration:none;">Terms & Conditions</a>
+</nav>
   </nav>
 </div>
 
@@ -1290,7 +1293,7 @@ window.getCategory = function(categoryInput) {
    const category = categoryInput.charAt(0).toUpperCase() + categoryInput.slice(1).toLowerCase();
     const sRef = ref(db);
 
-    get(child(sRef,`products/${category})
+    get(child(sRef,`products/${category}`))
     .then((snapshot) => {
         if (snapshot.exists()) {
             const products = snapshot.val();

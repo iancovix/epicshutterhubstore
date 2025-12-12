@@ -215,7 +215,7 @@ try{
   await uploadBytes(storageR,image);
   const url = await getDownloadURL(storageR);
   */
-  const refKey =  ref(db,`products/`);
+  const refKey =  ref(db,`products/${cat}`);
   const dataSave=  push(refKey);
   await set(dataSave,
   {  name ,

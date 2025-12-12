@@ -1288,9 +1288,9 @@ const db = getDatabase(app);
 window.getCategory = function(categoryInput) {
     const categoryGrid = document.querySelector(".category-products");
     const category = categoryInput.toLowerCase();
-    const sRef = ref(db, `products/`);
+    const sRef = ref(db);
 
-    get(sRef)
+    get(child(sRef, `products/$category})
     .then((snapshot) => {
         if (snapshot.exists()) {
             const products = snapshot.val();

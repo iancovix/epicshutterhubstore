@@ -2420,10 +2420,6 @@ body{
 }
 .search-container{
     width: auto;
-    display: none;
-}
-.search-input{
-    display: none;
 }
 .product-fetch{
     overflow-x: hidden;
@@ -2435,7 +2431,8 @@ body{
     grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
     margin: 10px auto;
     gap: 10px;
-
+    
+    display: none;
 }*/
 .category-products .product-name{
     text-transform: capitalize;
@@ -2457,3 +2454,11 @@ body{
   }
 /*
 @media (min)
+*/
+
+    .c-btn:hover{ 
+    color: black;
+        background-color: #eed3d3dd;
+        border: 1px solid rgba(196, 49, 49, 0.845);
+    
+    }

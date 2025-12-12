@@ -216,8 +216,8 @@ try{
   const url = await getDownloadURL(storageR);
   */
   const refKey =  ref(db,`products/${cat}`);
- /* const dataSave=  push(refKey);*/
-  await set(refKey,
+  const dataSave=  push(refKey);
+  await set(dataSave,
   {  name ,
      price:Number(price),
       description: desc, 

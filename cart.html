@@ -50,7 +50,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: 100%;
-    height: 100%;
+    height: 95%;
     background: rgba(0,0,0,0.6);
     display: none;
     justify-content: center;
@@ -411,7 +411,7 @@
             color: white;
             padding: 16px 28px;
             border-radius: 8px;
-            z-index: 3000;
+            z-index: 6000;
             animation: slideInNotif 0.3s ease-out;
             font-weight: 500;
             box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
@@ -511,10 +511,8 @@
   </div>
   <div id="map"></div>
 </div>
-Step 2
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="ocation.js"></script>
+<script src="location.js"></script>
     <script>
         const CART_STORAGE_KEY = 'ecommerce_cart';
         let cart = [];
@@ -813,6 +811,7 @@ async function payOut(){
     const name = document.getElementById('custName').value;
     const phone = document.getElementById('custPhone').value;   
     const email = document.getElementById('custEmail').value;
+    const amount = `${total.toFixed(2)}`;
     
     try{
         const req =await fetch('/submit-order',{
@@ -830,7 +829,7 @@ async function payOut(){
     /*
             window.location.href= data.link;
             */
-            window.location.href= `/payment-success?order=${phone}&amount=${amount}`;
+            window.location.href= `/payment-success?order=${phone}&amount=${total}`;
             
             showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`)
 } catch(error){

@@ -1302,7 +1302,7 @@ header{
         margin: 0;
     }
     .logoword p{
-        text-align: start; 
+        text-align: center; 
     }
     .header{
         justify-content: center;
@@ -1393,7 +1393,7 @@ header .logoword{
 }
 
 .logo p{
-    transform: translateX(-30px)
+    transform: translateX(30px)
 }
 .footer{
     background: black;}

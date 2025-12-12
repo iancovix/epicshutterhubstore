@@ -57,7 +57,7 @@
   .glass-card button:hover { background:rgb(207, 52, 52); }
 
   /* Product Table */
-  table { width:100%; border-collapse:collapse; border-radius:12px; overflow:hidden; box-shadow:0 8px 25px rgba(0,0,0,0.2);}
+  table { width:100%; border-radius:12px; overflow:hidden; box-shadow:0 8px 25px rgba(0,0,0,0.2);}
   th, td { padding:12px; text-align:left; font-size:0.95rem; border-bottom:1px solid rgba(255,255,255,0.3); color:#fff;}
   th { background: rgba(255,255,255,0.2); }
   td img { width:50px; height:50px; border-radius:8px; object-fit:cover; }
@@ -215,7 +215,7 @@ try{
   await uploadBytes(storageR,image);
   const url = await getDownloadURL(storageR);
   */
-  const refKey =  ref(db,`products/${cat}`);
+  const refKey =  ref(db,`products`);
   const dataSave=  push(refKey);
   await set(dataSave,
   {  name ,

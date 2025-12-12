@@ -209,14 +209,15 @@ window.saveProduct = async function(){
   const cat = document.getElementById("category").value;/*
   const image = document.getElementById("files").files[0];*/
   if(!name||!price||!desc||!cat){ showPopup("Fill all fields!"); return; }
-try{/*
+try{
+  /*
   const storageR = sRef(storage,`products/${Date.now()}_${image.name}`);
   await uploadBytes(storageR,image);
   const url = await getDownloadURL(storageR);
   */
-  const refKey =  ref(db,`products`);
-  const dataSave=  push(refKey);
-  await set(dataSave,
+  const refKey =  ref(db,`products/${cat}`);
+ /* const dataSave=  push(refKey);*/
+  await set(refKey,
   {  name ,
      price:Number(price),
       description: desc, 
@@ -240,7 +241,7 @@ try{/*
 
 /* LOAD PRODUCTS */
 function loadProducts(){
-  get(child(ref(db),"products")).then(snap=>{
+  get(child(ref(db),"products")).then(snap =>{
     productBody.innerHTML="";
     if(!snap.exists()) return;
     snap.forEach(item=>{

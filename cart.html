@@ -50,7 +50,8 @@
     left: 50%;
     transform: translate(-50%,-50%);
     width: 100%;
-    height: 95%;
+    max-height: 100%;
+    overflow-y: auto;
     background: rgba(0,0,0,0.6);
     display: none;
     justify-content: center;
@@ -666,7 +667,7 @@ paymentSelect.addEventListener('change', function() {
         case 'MasterCard':
         case 'Visa':
             showCardFields();
-            showMessage('Enter your card details below');
+            showMessage('Enter your card details Above');
             break;
             
         case 'MTN Mobile Money':
@@ -721,15 +722,12 @@ function showCardFields() {
             <input type="number"maxlength="16" minlength="12" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;" required>
             <div style="display:flex; gap:10px;">
                 <input type="number" maxlength="4"minlength="4" placeholder="MM/YY" style="width:50%;" required>
-                <input type="text"minlength="0" maxlength="3"id="cvv" placeholder="CVV" style="width:50%;" required>
+                <input type="text"minlength="0" maxlength="3"class="cvv" placeholder="CVV" style="width:50%;" required>
             </div>
             <input type="text" placeholder="Cardholder Name" style="width:100%; padding:12px; margin:8px 0;">
         `;
-        paymentSelect.parentNode.appendChild(cardFields);
-    }
-    cardFields.style.display = 'block';
-}
-const cvv = documment.getElementById('cvv').addEventListener('input',()=>{
+        
+const cvv = document.querySelector('.cvv').addEventListener('change',()=>{
     if(cvv.value.length > 1) {
         cvv.type="password";
         
@@ -739,6 +737,10 @@ const cvv = documment.getElementById('cvv').addEventListener('input',()=>{
     }
 
 })
+        paymentSelect.parentNode.appendChild(cardFields);
+    }
+    cardFields.style.display = 'block';
+}
 function showMobileMoneyFields(provider) {
     let mmFields = document.getElementById('mobileMoneyFields');
     if (!mmFields) {

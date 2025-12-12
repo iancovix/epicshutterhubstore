@@ -740,7 +740,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 msg.textContent = 'Please enter your card details below';
                 msg.style.background = '#ff0000';
-                msg.style.color = 'rgb(255,0,0)';
+                msg.style.color = 'white';
                 break;
             case 'Visa':
                 msg.textContent = 'Please enter your card details below';
@@ -774,7 +774,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // payment fetch fLutterwave
 async function payOut(){
     try{
-        const req =await fetch('https://epicshutterhub.onrender.com/submit-order',{
+        const req =await fetch('/submit-order',{
             method:"POST",
             headers:{'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -794,9 +794,9 @@ async function payOut(){
             showNotification(`✓ Order placed! Total: $${total.toFixed(2)}`)
 } catch(error){
     console.log(error)
-    alert('Payment Error Occured');
+    alert(error);
     
-}
+}/*
 window.addEventListener('load',()=>{
     const urlParams = new URLSearchParams(window.location.search);
     const reference = urlParams.get('pesapal_transaction_tracking_id') 
@@ -817,7 +817,7 @@ window.addEventListener('load',()=>{
             }
         });
     } 
-})
+})*/
 }
 </script>
 </body>

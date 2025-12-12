@@ -1287,10 +1287,10 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 window.getCategory = function(categoryInput) {
     const categoryGrid = document.querySelector(".category-products");
-    const category = categoryInput.toLowerCase();
+   const category = categoryInput.charAt(0).toUpperCase() + categoryInput.slice(1).toLowerCase();
     const sRef = ref(db);
 
-    get(child(sRef, `products/$category})
+    get(child(sRef,`products/${category})
     .then((snapshot) => {
         if (snapshot.exists()) {
             const products = snapshot.val();

@@ -722,12 +722,12 @@ function showCardFields() {
             <input type="number"maxlength="16" minlength="12" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;" required>
             <div style="display:flex; gap:10px;">
                 <input type="number" maxlength="4"minlength="4" placeholder="MM/YY" style="width:50%;" required>
-                <input type="text"minlength="0" maxlength="3"class="cvv" placeholder="CVV" style="width:50%;" required>
+                <input type="text"minlength="0" maxlength="3"class="cvv-input" placeholder="CVV" style="width:50%;" required>
             </div>
             <input type="text" placeholder="Cardholder Name" style="width:100%; padding:12px; margin:8px 0;">
         `;
         
-const cvv = document.querySelector('.cvv').addEventListener('change',()=>{
+const cvv = document.querySelector('.cvv-input').addEventListener('input',()=>{
     if(cvv.value.length > 1) {
         cvv.type="password";
         

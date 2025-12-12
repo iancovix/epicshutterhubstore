@@ -729,9 +729,9 @@ body::-webkit-scrollbar {
 }
 
 .add-to-cart:hover {
-    background: var(--navy);
+    background: transparent;
     border: 2px solid var(--navy);
-    color: white;
+    color: black;
     transform: scale(0.5);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);

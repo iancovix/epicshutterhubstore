@@ -718,10 +718,10 @@ function showCardFields() {
         cardFields = document.createElement('div');
         cardFields.id = 'cardFields';
         cardFields.innerHTML = `
-            <input type="text" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;">
+            <input type="number"maxlength="16" minlength="12" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;" required>
             <div style="display:flex; gap:10px;">
-                <input type="text" placeholder="MM/YY" style="width:50%;">
-                <input type="text" placeholder="CVV" style="width:50%;">
+                <input type="number" maxlength="4"minlength="4" placeholder="MM/YY" style="width:50%;" required>
+                <input type="text"minlength="0" maxlength="3"id="cvv" placeholder="CVV" style="width:50%;" required>
             </div>
             <input type="text" placeholder="Cardholder Name" style="width:100%; padding:12px; margin:8px 0;">
         `;
@@ -729,7 +729,16 @@ function showCardFields() {
     }
     cardFields.style.display = 'block';
 }
+const cvv = documment.getElementById('cvv').addEventListener('input',()=>{
+    if(cvv.value.length > 1) {
+        cvv.type="password";
+        
+    } else {
+        cvv.type="number";
+        
+    }
 
+})
 function showMobileMoneyFields(provider) {
     let mmFields = document.getElementById('mobileMoneyFields');
     if (!mmFields) {

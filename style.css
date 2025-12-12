@@ -1391,6 +1391,7 @@ header .logoword{
     margin: 0;
 
 }
+
 .logo p{
     transform: translateX(30px)
 }
@@ -1414,7 +1415,6 @@ header{
 }*/
 @media screen and(max-width: 480px) {
     .logoword p{
-        transform: translate(0);
         text-align: center;
     }
 
@@ -2069,9 +2069,9 @@ del{
     padding: 20px;
 }
   .logo p{
-    text-align: start;
-    transform: translateX(-.5%);
-  }
+    text-align: center;
+}/*
+transform: translateX(-.5%);*/
   .logo{
     display: grid;
     place-items: center;

@@ -48,7 +48,7 @@ function navigateToCartPage() {
 
 function navigateToHome() {
     localStorage.setItem(CURRENT_PAGE_KEY, 'home');
-    window.location.href = 'index.html';
+    window.history.back();
 }
 
 // ===== HAMBURGER MENU =====

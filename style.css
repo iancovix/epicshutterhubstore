@@ -1416,7 +1416,7 @@ header{
 }*/
 @media screen and(max-width: 480px) {
     .logoword p{
-        text-align: start;
+        text-align: center;
     }
 
 }
@@ -1608,9 +1608,8 @@ body p{
 .featured-products h2{
     font-weight: 700;
     margin-bottom: 20px;
-    margin-left: 20px;
     color: var(--navy);
-    text-align: start;
+    text-align: center;
     font-size: clamp(1.3rem, calc(2vw + 1rem),2.2rem);
     font-family: "Montserrat", sans-serif;
 }

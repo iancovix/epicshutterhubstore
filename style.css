@@ -1391,11 +1391,11 @@ header .logoword{
     margin: 0;
 
 }
-/*
+
 .logo p{
-    transform: translateX(30px)
+    text-align: center;
 }
-    */
+    
 .footer{
     background: black;}
 header{

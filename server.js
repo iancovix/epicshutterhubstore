@@ -818,9 +818,11 @@ allProducts.forEach(product => {
 
       const nameProd = product.textContent;
       const name = encodeURIComponent(nameProd); // encode for URL
+const image = document.querySelector('.product-image img').src;
+const imgUrl = encodeURIComponent(image);
     const description = document.querySelector('.product-description').textContent;
     const desc = encodeURIComponent(description); // encode for URL
-    window.location.href = `product.html?name=${name}&desc=${description}`;
+    window.location.href = `product.html?name=${name}&desc=${description}&img=${imgUrl}`;
   });
 });
 document.querySelectorAll('.nav-link a').forEach((link)=>{

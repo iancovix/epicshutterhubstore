@@ -1,6 +1,14 @@
-# Allow all search engines to crawl the site
+# Allow crawling of public pages for all user agents
 User-agent: *
-Disallow:
+Allow: /
 
-# Sitemap location
+# Disallow sensitive e-commerce paths to avoid indexing dynamic or private content
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /account/
+Disallow: /my-account/
+Disallow: /admin/
+Disallow: /search/
+Disallow: /api/  # Common for API endpoints in Vercel/Next.js sites
+
 Sitemap: https://epicshutterhub.vercel.app/sitemap.xml

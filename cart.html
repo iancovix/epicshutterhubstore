@@ -498,7 +498,9 @@
                 <option value="Airtel Money">Airtel Money</option>
                 <option value="Cash on    Delivery">Cash on Delivery</option>
             </select>
-            
+            <div id="cardFields">
+
+            </div>
             <button class="modal-btn pay-btn" onclick="payOut()">Confirm Order</button>
             <button class="modal-btn close-btn" onclick="closePaymentModal()">Cancel</button>
         </div>
@@ -611,6 +613,7 @@
         }
 
         function processCheckout() {
+            
             if (cart.length === 0) {
                 showNotification('Your cart is empty!');
                 return;
@@ -715,26 +718,26 @@ function hideAllPaymentFields() {
 
 function showCardFields() {
     let cardFields = document.getElementById('cardFields');
-    if (!cardFields) {
-        cardFields = document.createElement('div');
+    if (cardFields) {
         cardFields.id = 'cardFields';
         cardFields.innerHTML = `
-            <input type="number"maxlength="16" minlength="12" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;" required>
-            <div style="display:flex; gap:10px;">
-                <input type="number" maxlength="4"minlength="4" placeholder="MM/YY" style="width:50%;" required>
-                <input type="text"minlength="0" maxlength="3"class="cvv" placeholder="CVV" style="width:50%;" required>
+        <input type="number"maxlength="16" minlength="12" placeholder="Card Number" style="width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;" required>
+        <div style="display:flex; gap:10px;">
+            <input type="number" maxlength="4"minlength="4" placeholder="MM/YY" style="width:50%;" required>
+            <input type="text"minlength="0" inputmode="numeric" maxlength="3"class="cvv" placeholder="CVV" style="width:50%;" required>
             </div>
             <input type="text" placeholder="Cardholder Name" style="width:100%; padding:12px; margin:8px 0;">
-        `;
-   /*     
-const cvv = documment.get('cvv').addEventListener('change',()=>{
-    if(cvv.value.length > 1) {
-        cvv.type="password";
+            `;
+            /*     
+            cardFields = document.createElement('div');
+            const cvv = document.querySelector('.cvv');
+            
+cvv.addEventListener('input', () => {
+  cvv.type = cvv.value.length > 0 ? "password" : "text";
+});
+
         
-    } else {
-        cvv.type="number";
-        
-    }*/
+    */
 
         paymentSelect.parentNode.appendChild(cardFields);
     }

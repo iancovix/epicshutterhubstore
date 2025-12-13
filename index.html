@@ -401,9 +401,9 @@
     <div class="category-carousel">
         <div class="category-btns">
             <button onclick="getCategory('cameras')" class="c-btn">Cameras</button>
-            <button onclick="getCategory('Lenses')" class="c-btn">Lenses</button>
+            <button onclick="getCategory('lenses')" class="c-btn">Lenses</button>
             <button onclick="getCategory('audio')" class="c-btn">Audio</button>
-            <button onclick="getCategory('Lighting')" class="c-btn">Lighting</button>
+            <button onclick="getCategory('lighting')" class="c-btn">Lighting</button>
             <button onclick="getCategory('accessories')" class="c-btn">Accessories</button>
             <button onclick="getCategory('tripods')" class="c-btn">Tripods</button>
         </div>
@@ -1290,10 +1290,10 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 window.getCategory = function(categoryInput) {
     const categoryGrid = document.querySelector(".category-products");
-   const category = categoryInput.charAt(0).toUpperCase() + categoryInput.slice(1).toLowerCase();
+   /*const category = categoryInput.charAt(0).toUpperCase() + categoryInput.slice(1).toLowerCase();*/
     const sRef = ref(db);
 
-    get(child(sRef,`products/${category}`))
+    get(child(sRef,`products/`))
     .then((snapshot) => {
         if (snapshot.exists()) {
             const products = snapshot.val();
@@ -1323,7 +1323,7 @@ window.getCategory = function(categoryInput) {
                         <h3 class="product-name">${item.name}</h3>
                         <p class="product-description">${item.description}</p>
                         <div class="product-price">$ ${item.price}</div>
-                        <button class="add-to-cart" data-product="${item.name}" data-price="${item.price}">Add to Cart</button>
+                        <button class="add-to-cart" onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
                     </div>
                 `;
 
@@ -1338,6 +1338,7 @@ window.getCategory = function(categoryInput) {
         alert(error);
     });
 };
+
 
 
 </script>

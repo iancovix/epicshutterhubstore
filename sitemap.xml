@@ -1,57 +1,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://epicshutterhub.netlify.app/</loc>
+        <loc>https://epicshutterhub.vercel.app/</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/cameras</loc>
+        <loc>https://epicshutterhub.vercel.app/cameras</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/lighting</loc>
+        <loc>https://epicshutterhub.vercel.app/lighting</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/lenses</loc>
+        <loc>https://epicshutterhub.vercel.app/lenses</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     
     <url>
-        <loc>https://epicshutterhub.netlify.app/about</loc>
+        <loc>https://epicshutterhub.vercel.app/about</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/tripods-and-stabilizers</loc>
+        <loc>https://epicshutterhub.vercel.app/tripods-and-stabilizers</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/audio</loc>
+        <loc>https://epicshutterhub.vercel.app/audio</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/return-policy</loc>
+        <loc>https://epicshutterhub.vercel.app/return-policy</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/privacy-policy</loc>
+        <loc>https://epicshutterhub.vercel.app/privacy-policy</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/terms-and-conditions</loc>
+        <loc>https://epicshutterhub.vercel.app/terms-and-conditions</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://epicshutterhub.netlify.app/shipping-info</loc>
+        <loc>https://epicshutterhub.vercel.app/shipping-info</loc>
         <lastmod>2025-11-28</lastmod>
         <priority>0.6</priority>
     </url>

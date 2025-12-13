@@ -30,7 +30,8 @@
     background: rgba(255,255,255,0.2); padding:40px; border-radius:20px; backdrop-filter:blur(15px);
     box-shadow:0 10px 25px rgba(0,0,0,0.3); display:flex; flex-direction:column; gap:15px; width:320px;
   }
-  #loginForm input { padding:12px; border:none; border-radius:10px; background:rgba(255,255,255,0.3); color:#fff; font-size:1rem; }
+  #loginForm input { padding:12px; border:none; border-radius:10px; background:rgba(255, 255, 255, 0.363); color:#fff; font-size:1rem; }
+  #loginForm input::placeholder { color: white;}
   #loginForm button { padding:12px; border:none; border-radius:10px; background:#bc3540; color:#fff; font-weight:600; cursor:pointer; transition:0.2s;}
   #loginForm button:hover { background:rgb(177, 72, 72); }
 
@@ -52,14 +53,16 @@
 
   /* Forms */
   .glass-card { background: rgba(255,255,255,0.2); backdrop-filter: blur(15px); padding:25px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.2); max-width:500px; margin:auto; display:flex; flex-direction:column; gap:15px;}
-  .glass-card input, .glass-card select, .glass-card textarea { padding:12px; border:none; border-radius:10px;margin: 10px; background:rgba(255,255,255,0.3); color: black; font-size:1rem; width:100%; }
+  .glass-card input, .glass-card select, .glass-card textarea { padding:12px; border:none; border-radius:10px;margin: 10px; background:rgba(255, 255, 255, 0.349); color: black; font-size:1rem; width:100%; }
   .glass-card button { padding:12px; border:none; border-radius:10px; background:#bd3843; color:#fff; font-weight:600; cursor:pointer; transition:0.2s; }
   .glass-card button:hover { background:rgb(207, 52, 52); }
-
+.glass-card input::placeholder{
+  color: white;
+}
   /* Product Table */
   table { width:100%; border-radius:12px; overflow:hidden; box-shadow:0 8px 25px rgba(0,0,0,0.2);}
   th, td { padding:12px; text-align:left; font-size:0.95rem; border-bottom:1px solid rgba(255,255,255,0.3); color:#fff;}
-  th { background: rgba(255,255,255,0.2); }
+  th { background: rgba(255, 255, 255, 0.288); }
   td img { width:50px; height:50px; border-radius:8px; object-fit:cover; }
   td button { margin-right:5px; padding:6px 10px; border:none; border-radius:6px; cursor:pointer; font-weight:600; transition:0.2s; }
   td button:hover { opacity:0.8; }
@@ -70,8 +73,13 @@
 }
   /* Responsive */
   @media screen and (max-width:768px){
-    .dashboard { flex-direction:column; }
-    .sidebar { width:80%;margin: auto; flex-direction:row; overflow-x:auto; gap: 0; justify-content:center; }
+    .glass-card{
+      max-width: 380px;
+      margin: 10px auto;
+    }
+    .dashboard { flex-direction:column; margin: 10px auto;
+    max-width: 100%; }
+    .sidebar { width: 100%;margin: auto; flex-direction:row; border-radius: 8px; overflow-x:auto; gap: 0; justify-content:center; }
     .sidebar ul { flex-direction:row; gap:10px; }
   }
 
@@ -99,7 +107,9 @@
   <div class="sidebar">
     <ul>
       <li id="navAdd">Add Product</li>
-      <li id="navList">Product List</li>
+      <li id="navList">Category Product List</li>
+      <li id="navFeaturedList"> Featured Product List</li>
+
     </ul>
   </div>
 
@@ -117,14 +127,16 @@
         <option>Lighting</option>
         <option>Accessories</option>
       </select>
+      <input type="file" id="files" accept="image/*"> 
       <button onclick="saveProduct()">Save Product</button>
     </div>
     <!-- PRODUCT TABLE -->
     <div class="glass-card" id="listBox" style="display:none;">
-      <h2>Products</h2>
+      <h2>Category Products</h2>
       <table>
         <thead>
           <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
@@ -148,7 +160,7 @@ const firebaseConfig = {
   authDomain: "epicshutterhubstore-d41da.firebaseapp.com",
   databaseURL: "https://epicshutterhubstore-d41da-default-rtdb.firebaseio.com",
   projectId: "epicshutterhubstore-d41da",
-  storageBucket: "epicshutterhubstore-d41da.firebasestorage.app",
+  storageBucket: "epicshutterhubstore-d41da.appspot.com",
   messagingSenderId: "12540619912",
   appId: "1:12540619912:web:6f31eab47fe31dd800433d"
 };
@@ -169,7 +181,7 @@ const ADMIN_PASS = "12345";
 
 document.getElementById("loginForm").addEventListener("submit", e=>{
   e.preventDefault();
-  const u = document.getElementById("username").value;
+  const u = document.getElementById("username").value.toLowerCase();
   const p = document.getElementById("password").value;
   if(u===ADMIN_USER && p===ADMIN_PASS){
     loginBox.style.display="none";
@@ -202,42 +214,63 @@ function showList(){
 }
 
 /* SAVE PRODUCT */
-window.saveProduct = async function(){
-  const name = document.getElementById("pname").value.trim().toLowerCase();
+window.saveProduct = async function () {
+  const name = document.getElementById("pname").value.trim();
   const price = document.getElementById("price").value;
-  const desc = document.getElementById("desc").value;
-  const cat = document.getElementById("category").value;/*
-  const image = document.getElementById("files").files[0];*/
-  if(!name||!price||!desc||!cat){ showPopup("Fill all fields!"); return; }
-try{
-  /*
-  const storageR = sRef(storage,`products/${Date.now()}_${image.name}`);
-  await uploadBytes(storageR,image);
-  const url = await getDownloadURL(storageR);
-  */
-  const refKey =  ref(db,`products/`);
-  const dataSave=  push(refKey);
-  await set(dataSave,
-  {  name ,
-     price:Number(price),
-      description: desc, 
-      category: cat,
-       createdAt: Date.now()
-      });
-  showPopup("Product saved!");
-  document.getElementById("pname").value="";
-  document.getElementById("price").value="";
-  document.getElementById("desc").value="";/*
-  document.getElementById("files").value="";*/
-  document.getElementById("category").value="";
-  editingKey = null;
-  showList();
-}
-  catch (error){
-    alert(error)
-    console.log(error)
+  const desc = document.getElementById("desc").value.trim();
+  const cat = document.getElementById("category").value;
+  const imageInput = document.getElementById("files");
+  const image = imageInput.files[0];
+
+  // VALIDATION
+  if (!name || !price || !desc || !cat) {
+    showPopup("Fill all fields!");
+    return;
   }
-}
+
+  if (!image) {
+    showPopup("Please select an image");
+    return;
+  }
+
+  try {
+    // 🔐 unique image name
+    const imageName = `${Date.now()}-${image.name}`;
+    const storageR = sRef(storage, `products/${cat}/${imageName}`);
+
+    await uploadBytes(storageR, image);
+    const url = await getDownloadURL(storageR);
+
+    // Save product under category
+    const refKey = ref(db, `products/${cat}`);
+    const dataSave = push(refKey);
+
+    await set(dataSave, {
+      name,
+      price: Number(price),
+      description: desc,
+      category: cat,
+      image: url,
+      createdAt: Date.now()
+    });
+
+    showPopup("Product saved!");
+
+    // RESET FORM
+    document.getElementById("pname").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("desc").value = "";
+    document.getElementById("files").value = "";
+    document.getElementById("category").value = "";
+
+    editingKey = null;
+    showList();
+
+  } catch (error) {
+    console.error(error);
+    showPopup(error.message || "Failed to save product");
+  }
+};
 
 /* LOAD PRODUCTS */
 function loadProducts(){
@@ -248,7 +281,8 @@ function loadProducts(){
       const p=item.val();
       const key=item.key;
       productBody.innerHTML+=`
-      <tr>
+      <tr> 
+        <td><img src="${p.image}" alt="${p.price}" style="width:100px; height:auto;"></td>
         <td>${p.name}</td>
         <td>$${p.price}</td>
         <td>${p.category}</td>
